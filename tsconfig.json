@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@ketero/ui": [
+                "libs/ui/src/index.ts"
+            ],
+            "@ketero/ui/*": [
+                "libs/ui/src/*"
+            ]
+        }
+    }
+}

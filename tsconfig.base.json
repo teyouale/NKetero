@@ -18,11 +18,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ketero/ui-components": [
-        "libs/ui-components/src/index.ts"
+      "@ketero/ui": [
+        "libs/ui/src/index.ts"
       ],
-      "@ketero/ui-components/*": [
-        "libs/ui-components/src/*"
+      "@ketero/ui/*": [
+        "libs/ui/src/*"
       ]
     }
   },
