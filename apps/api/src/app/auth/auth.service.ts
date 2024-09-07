@@ -85,8 +85,8 @@ export class AuthService {
     });
   }
 
-  async setRefreshToken(email: string, token: string | null) {
-    await this.userService.updateByEmail(email, {
+  async setRefreshToken(userId: string, token: string | null) {
+    await this.userService.updateByID(userId, {
       secrets: {
         update: {
           refreshToken: token,

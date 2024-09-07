@@ -47,9 +47,8 @@ export class AuthController {
 
       const accessToken = this.authService.generateToken('access', payload);
       const refreshToken = this.authService.generateToken('refresh', payload);
-
       // Set Refresh Token in Database
-      await this.authService.setRefreshToken(email, refreshToken);
+      await this.authService.setRefreshToken(id, refreshToken);
 
       return { accessToken, refreshToken };
     } catch (error) {
@@ -67,7 +66,6 @@ export class AuthController {
 
     const baseUrl = this.configService.get('PUBLIC_URL');
     const redirectUrl = new URL(`${baseUrl}/auth/callback`);
-
     const { accessToken, refreshToken } = await this.exchangeToken(
       user.id,
       user.email,
@@ -125,25 +123,20 @@ export class AuthController {
     @User() user: UserWithSecrets,
     @Res({ passthrough: true }) response: Response
   ) {
-    // return "ad"
     return this.handleAuthenticationResponse(user, response, true);
   }
 
 
-  @Post('logout')
-  @UseGuards(TwoFactorGuard)
-  async logout(
-    @User() user: UserWithSecrets,
-    @Res({ passthrough: true }) response: Response
-  ) {
-    await this.authService.setRefreshToken(user.email, null);
+  @Post("logout")
+  @UseGuards(JwtGuard)
+  async logout(@User() user, @Res({ passthrough: true }) response: Response) {
+    console.log(user)
+    await this.authService.setRefreshToken(user.userId, null);
 
-    response.clearCookie('Authentication');
-    response.clearCookie('Refresh');
+    response.clearCookie("Authentication");
+    response.clearCookie("Refresh");
 
-    const data = messageSchema.parse({
-      message: 'You have been logged out, tschüss!',
-    });
+    const data = messageSchema.parse({ message: "You have been logged out, tschüss!" });
     response.status(200).send(data);
   }
 }
