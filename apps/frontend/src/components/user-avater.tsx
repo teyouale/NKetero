@@ -1,11 +1,19 @@
 // @ts-nocheck
-import { getInitials } from '@ketero/utils';
-
 import { useUser } from '../services/user';
 
 type Props = {
   size?: number;
   className?: string;
+};
+
+export const getInitials = (name: string) => {
+  // eslint-disable-next-line unicorn/better-regex
+  const regex = new RegExp(/(\p{L}{1})\p{L}+/u, 'gu');
+  const initials = [...name.matchAll(regex)];
+
+  return (
+    (initials.shift()?.[1] ?? '') + (initials.pop()?.[1] ?? '')
+  ).toUpperCase();
 };
 
 export const UserAvatar = ({ size = 36, className }: Props) => {

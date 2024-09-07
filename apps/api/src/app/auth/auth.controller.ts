@@ -125,6 +125,7 @@ export class AuthController {
     @User() user: UserWithSecrets,
     @Res({ passthrough: true }) response: Response
   ) {
+    // return "ad"
     return this.handleAuthenticationResponse(user, response, true);
   }
 

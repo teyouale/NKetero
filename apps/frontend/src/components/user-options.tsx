@@ -5,7 +5,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  KeyboardShortcut,
 } from '@ketero/ui';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,13 +29,9 @@ export const UserOptions = ({ children }: Props) => {
           }}
         >
           Settings
-          <KeyboardShortcut>⇧S</KeyboardShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => logout()}>
-          Logout
-          <KeyboardShortcut>⇧Q</KeyboardShortcut>
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

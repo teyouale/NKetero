@@ -3,23 +3,17 @@ import { useMemo } from 'react';
 import { Link, matchRoutes, Outlet, useLocation } from 'react-router-dom';
 
 import { Logo } from '@/client/components/logo';
-import { ThemeSwitch } from '@/client/components/theme-switch';
-import { useAuthProviders } from '@/client/services/auth/providers';
 
 const authRoutes = [{ path: '/auth/login' }, { path: '/auth/register' }];
 
 export const AuthLayout = () => {
   const location = useLocation();
-  const { providers } = useAuthProviders();
   const isAuthRoute = useMemo(
     () => matchRoutes(authRoutes, location) !== null,
-    [location],
+    [location]
   );
 
-  if (!providers) return null;
-
   // Condition (providers.length === 1) hides the divider if providers[] includes only "email"
-  const hideDivider = !providers.includes('email') || providers.length === 1;
 
   return (
     // eslint-disable-next-line tailwindcss/enforces-shorthand -- size-screen not implemented yet
@@ -37,21 +31,6 @@ export const AuthLayout = () => {
         </div>
 
         <Outlet />
-
-        {isAuthRoute && (
-          <>
-            <div
-              className={cn(
-                'flex items-center gap-x-4',
-                hideDivider && 'hidden',
-              )}
-            >
-              <hr className="flex-1" />
-              <span className="text-xs font-medium">or continue with</span>
-              <hr className="flex-1" />
-            </div>
-          </>
-        )}
       </div>
 
       <div className="relative hidden lg:block lg:flex-1">

@@ -1,16 +1,16 @@
-import { UserDto } from '@ketero/dto';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
-import { useEffect } from 'react';
+import { UserDto } from "@reactive-resume/dto";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
+import { useEffect } from "react";
 
-import { axios } from '@/client/libs/axios';
-import { useAuthStore } from '@/client/stores/auth';
+import { axios } from "@/client/libs/axios";
+import { useAuthStore } from "@/client/stores/auth";
 
 export const fetchUser = async () => {
-  const response = await axios.get<
-    UserDto | undefined,
-    AxiosResponse<UserDto | undefined>
-  >('/user/me');
+  const response = await axios.get<UserDto | undefined, AxiosResponse<UserDto | undefined>>(
+    "/user/me",
+  );
+
   return response.data;
 };
 
@@ -22,7 +22,7 @@ export const useUser = () => {
     isPending: loading,
     data: user,
   } = useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: fetchUser,
   });
 

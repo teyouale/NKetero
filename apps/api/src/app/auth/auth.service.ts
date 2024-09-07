@@ -31,7 +31,7 @@ export class AuthService {
     private readonly configService: ConfigService<Config>,
     private readonly userService: UserService,
     private readonly jwtService: JwtService
-  ) {}
+  ) { }
 
   private hash(password: string): Promise<string> {
     return bcryptjs.hash(password, 10);
@@ -103,9 +103,7 @@ export class AuthService {
     if (!storedRefreshToken || storedRefreshToken !== token)
       throw new ForbiddenException();
 
-    // if (!user.twoFactorEnabled) return user;
-
-    if (payload.isTwoFactorAuth) return user;
+    return user;
   }
 
   async register(registerDto: RegisterDto) {

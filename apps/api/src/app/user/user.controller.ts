@@ -26,6 +26,7 @@ export class UserController {
   ) { }
 
   @Get('me')
+  @UseGuards(JwtGuard)
   fetch(@User() user: UserDto) {
     return user;
   }

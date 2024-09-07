@@ -7,6 +7,7 @@ import { helmetContext } from '../constants/helmet';
 import { queryClient } from '../libs/query-client';
 import { AuthRefreshProvider } from './auth-refresh';
 import { DialogProvider } from './dialog';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const Providers = () => (
   <HelmetProvider context={helmetContext}>
@@ -19,6 +20,7 @@ export const Providers = () => (
           </DialogProvider>
         </TooltipProvider>
       </AuthRefreshProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </HelmetProvider>
 );
