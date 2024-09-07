@@ -1,5 +1,5 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
+import { defineConfig, searchForWorkspaceRoot } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
@@ -8,8 +8,9 @@ export default defineConfig({
   cacheDir: '../../node_modules/.vite/apps/frontend',
 
   server: {
-    port: 4200,
+    port: 5173,
     host: 'localhost',
+    fs: { allow: [searchForWorkspaceRoot(process.cwd())] },
   },
 
   preview: {
@@ -24,12 +25,12 @@ export default defineConfig({
   //  plugins: [ nxViteTsPaths() ],
   // },
 
-  build: {
-    outDir: '../../dist/apps/frontend',
-    emptyOutDir: true,
-    reportCompressedSize: true,
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
+  // build: {
+  //   outDir: '../../dist/apps/frontend',
+  //   emptyOutDir: true,
+  //   reportCompressedSize: true,
+  //   commonjsOptions: {
+  //     transformMixedEsModules: true,
+  //   },
+  // },
 });

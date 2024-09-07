@@ -22,6 +22,7 @@ export const routes = createRoutesFromElements(
       </Route>
     </Route>
     <Route path="*" element={<Navigate replace to="/auth/login" />} />
+    <Route path="/dashboard" element={<h1>Helo</h1>} />
   </Route>
 );
 

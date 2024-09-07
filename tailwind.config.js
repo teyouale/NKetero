@@ -2,7 +2,6 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class'],
   content: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}'],
   theme: {
     container: {
@@ -46,6 +45,26 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        error: {
+          DEFAULT: 'hsl(var(--error))',
+          accent: 'hsl(var(--error-accent))',
+          foreground: 'hsl(var(--error-foreground))',
+        },
+        info: {
+          DEFAULT: 'hsl(var(--info))',
+          accent: 'hsl(var(--info-accent))',
+          foreground: 'hsl(var(--info-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          accent: 'hsl(var(--success-accent))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          accent: 'hsl(var(--warning-accent))',
+          foreground: 'hsl(var(--warning-foreground))',
         },
       },
       borderRadius: {
