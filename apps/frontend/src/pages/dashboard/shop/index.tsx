@@ -9,11 +9,11 @@ import {
   TabsTrigger,
 } from '@ketero/ui';
 import { List, SquaresFour } from '@phosphor-icons/react';
-import CompanyList from './_layout';
 import { useBusiness } from '@/client/services/businesses';
 import { BusinessDto } from '@ketero/dto';
 import { useDialog } from '@/client/stores/dialog';
 import { DataTableDemo } from './_layout/test';
+import ShopList from './_layout/table';
 
 const BusinessesPage = (props) => {
   const { business, loading } = useBusiness();
@@ -29,7 +29,7 @@ const BusinessesPage = (props) => {
           <motion.h1
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-4xl font-bold tracking-tight text-primary"
+            className="text-2xl font-bold tracking-tight text-primary "
           >
             Company List
           </motion.h1>
@@ -42,10 +42,8 @@ const BusinessesPage = (props) => {
             Add Business Company
           </Button>
         </div>
-        {/* <ScrollArea className="h-[calc(100vh-140px)] lg:h-[calc(100vh-88px)]"> */}
-        <CompanyList />
+        <ShopList />
         <DataTableDemo />
-        {/* </ScrollArea> */}
       </Tabs>
     </>
   );
