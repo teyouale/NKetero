@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from './config/config.module';
 // import { ProfileController } from './profile/profile.controller';
 // import { ProfileModule } from './profile/profile.module';
-// import { BusinessModule } from './business/business.module';
+import { BusinessModule } from './business/business.module';
 // import { BusinessService } from './business/business.service';
 import { AuthService } from './auth/auth.service';
 // import { ReservationService } from './reservation/reservation.service';
@@ -29,7 +29,7 @@ import path from "node:path";
     ConfigModule,
     UserModule,
     // ProfileModule,
-    // BusinessModule,
+    BusinessModule,
     // ReservationModule,
     // CategoriesModule,
     // ServiceModule,

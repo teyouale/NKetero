@@ -116,6 +116,7 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-query-devtools": "^5.55.0",
+    "@tanstack/react-table": "^8.20.5",
     "@types/bcryptjs": "^2.4.6",
     "@vitejs/plugin-react": "~4.2.1",
     "@vitejs/plugin-react-swc": "~3.6.0",
