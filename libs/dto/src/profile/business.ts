@@ -7,13 +7,13 @@ export const businessSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   workingHours: z.array(z.string()),
-  location: z.string().url({
-    message: 'Invalid Location format',
+  location: z.array(z.number()).length(2, {
+    message: 'Location must be an array with exactly 2 numbers (latitude and longitude)',
   }),
   user: userSchema,
 });
 
-export class BusinessDto extends createZodDto(businessSchema) {}
+export class BusinessDto extends createZodDto(businessSchema) { }
 export class UpdateBusinessDto extends createZodDto(
   businessSchema.partial()
   // .pick({
@@ -23,4 +23,4 @@ export class UpdateBusinessDto extends createZodDto(
   //   location: true,
   //   id: true,
   // })
-) {}
+) { }

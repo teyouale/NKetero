@@ -12,7 +12,7 @@ import { BusinessModule } from './business/business.module';
 // import { BusinessService } from './business/business.service';
 import { AuthService } from './auth/auth.service';
 // import { ReservationService } from './reservation/reservation.service';
-// import { ReservationModule } from './reservation/reservation.module';
+import { ReservationModule } from './reservation/reservation.module';
 // import { CategoriesModule } from './categories/categories.module';
 import { ServeStaticModule } from "@nestjs/serve-static";
 import path from "node:path";
@@ -30,7 +30,7 @@ import path from "node:path";
     UserModule,
     // ProfileModule,
     BusinessModule,
-    // ReservationModule,
+    ReservationModule,
     // CategoriesModule,
     // ServiceModule,
     ServeStaticModule.forRoot({

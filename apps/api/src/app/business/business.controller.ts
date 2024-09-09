@@ -38,7 +38,6 @@ export class BusinessController {
   @UseGuards(JwtGuard, RolesGuard)
   async getAllBusinesses(@Request() req) {
     const user = req.user; // Assuming req.user contains the decoded JWT payload
-
     // Check user role and return the appropriate response
     if (user.role === Role.Business) {
       return this.businessService.getMyBusinesses(user.userId);
@@ -85,9 +84,10 @@ export class BusinessController {
         name: businessUser.user.name,
         phoneNumber: businessUser.user.phoneNumber,
         business: {
-          location: businessUser.location,
+          location: [businessUser.location.latitude, businessUser.location.longitude]
         },
       };
+      console.log(newbusinessUser)
 
       const output: any = await this.authService.register(newbusinessUser);
 

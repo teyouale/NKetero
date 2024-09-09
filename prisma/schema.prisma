@@ -47,7 +47,7 @@ model Business {
   name         String
   description  String?
   workingHours String[]
-  location     String
+  location     Json
   userId       String   @unique
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservation  Reservation[]
