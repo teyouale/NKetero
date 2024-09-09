@@ -16,7 +16,7 @@ export const DashboardLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex lg:h-screen ">
       {/* Sidebar for desktop */}
       {/* <aside className="hidden md:flex flex-col w-64 bg-white border-r"></aside> */}
       <motion.div
@@ -30,7 +30,7 @@ export const DashboardLayout = () => {
       </motion.div>
 
       {/* Main content area */}
-      <main className="flex-1 p-4 overflow-y-auto md:mx-6 my-4 lg:mx-8 lg:pl-[320px]">
+      <main className="flex-1 px-4 pt-4 overflow-y-auto md:mx-6 my-4 lg:mx-8 lg:pl-[320px] !mb-10  ">
         {/* <h2 className="text-2xl font-bold mb-4">Welcome to My App</h2>
         <p>This is where your main content will be displayed.</p> */}
         <Outlet />

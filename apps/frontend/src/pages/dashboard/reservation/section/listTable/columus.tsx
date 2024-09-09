@@ -7,10 +7,10 @@ export const columns: ColumnDef<z.infer<typeof businessSchema>>[] = [
   {
     accessorKey: 'businessId',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Business Name" />
+      <DataTableColumnHeader column={column} title="Business ID" />
     ),
     cell: ({ row }) => (
-      <div className="w-[200px] truncate">{row.getValue('businessId')}</div>
+      <div className="w-[80px] truncate">{row.getValue('businessId')}</div>
     ),
     enableSorting: false,
     enableHiding: true,

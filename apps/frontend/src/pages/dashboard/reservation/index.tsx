@@ -36,7 +36,7 @@ const ReservationPage = (props) => {
         </div>
         <AnalyticsSection />
         <main className="flex flex-1 flex-col gap-4 py-4 lg:gap-6 lg:py-6">
-          <Card x-chunk="dashboard-05-chunk-3">
+          <Card>
             <CardHeader className="px-7">
               <CardTitle>Active Reserve Business</CardTitle>
               <CardDescription>Recent Business by orders.</CardDescription>

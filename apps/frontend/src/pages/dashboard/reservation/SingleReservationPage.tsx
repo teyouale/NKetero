@@ -27,38 +27,36 @@ const SingleReservationPage = (props) => {
   const { reservation, ...businessInfo } = loaderData;
   console.log(reservation[0].client.name);
   return (
-    <div>
-      <Tabs className="space-y-4 ">
-        <div className="flex items-center justify-between">
-          <motion.h1
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-2xl font-bold tracking-tight text-primary "
-          >
-            Reservation List for {businessInfo.name}
-          </motion.h1>
-        </div>
-        <AnalyticsSection />
-        <main className="flex flex-1 flex-col gap-4 py-4 lg:gap-6 lg:py-6">
-          <Card x-chunk="dashboard-05-chunk-3">
-            <CardHeader className="px-7">
-              <CardTitle>
-                Current Business Reservation for {businessInfo.name}
-              </CardTitle>
-              <CardDescription>Recent Business by orders.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {reservation && reservation.length > 0 ? (
-                <DataTable data={reservation} columns={columns} />
-              ) : (
-                <DataTable columns={columns} data={[]} />
-              )}
-              {/* <DataTable columns={columns} data={reservation} /> */}
-            </CardContent>
-          </Card>
-        </main>
-      </Tabs>
-    </div>
+    <Tabs className="space-y-4 ">
+      <div className="flex items-center justify-between">
+        <motion.h1
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="text-2xl font-bold tracking-tight text-primary "
+        >
+          Reservation List for {businessInfo.name}
+        </motion.h1>
+      </div>
+      <AnalyticsSection />
+      <main className="flex flex-1 flex-col gap-4 py-4 lg:gap-6 lg:py-6">
+        <Card x-chunk="dashboard-05-chunk-3">
+          <CardHeader className="px-7">
+            <CardTitle>
+              Current Business Reservation for {businessInfo.name}
+            </CardTitle>
+            <CardDescription>Recent Business by orders.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {reservation && reservation.length > 0 ? (
+              <DataTable data={reservation} columns={columns} />
+            ) : (
+              <DataTable columns={columns} data={[]} />
+            )}
+            {/* <DataTable columns={columns} data={reservation} /> */}
+          </CardContent>
+        </Card>
+      </main>
+    </Tabs>
   );
 };
 

@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@ketero/ui';
+import { DataTablePagination } from './DataTablePagination';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -115,6 +116,7 @@ export function DataTable<TData, TValue>({ columns, data }) {
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </div>
   );
 }

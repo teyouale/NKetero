@@ -5,11 +5,11 @@ const BottomNav = (props) => {
   const navItems = [
     { name: 'Dashboard', icon: Home, href: '/' },
     { name: 'Businesses', icon: Mail, href: '/dashboard/businesses' },
-    { name: 'Reservation', icon: User, href: '/dashboard/businesses' },
+    { name: 'Reservation', icon: User, href: '/dashboard/Reservation' },
     // { name: 'Settings', icon: Settings, href: '/settings' },
   ];
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t ">
       <ul className="flex justify-around p-2">
         {navItems.map((item) => (
           <li key={item.name}>

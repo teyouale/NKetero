@@ -23,6 +23,7 @@ import {
   TableRow,
 } from '@ketero/ui';
 import { useNavigate } from 'react-router-dom';
+import { DataTablePagination } from '../reservationTable/DataTablePagination';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -115,6 +116,7 @@ export function DataTable<TData, TValue>({ columns, data }) {
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </div>
   );
 }
