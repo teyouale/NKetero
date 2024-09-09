@@ -84,7 +84,7 @@ export class BusinessController {
         name: businessUser.user.name,
         phoneNumber: businessUser.user.phoneNumber,
         business: {
-          location: [businessUser.location.latitude, businessUser.location.longitude]
+          location: businessUser.location,
         },
       };
       console.log(newbusinessUser)

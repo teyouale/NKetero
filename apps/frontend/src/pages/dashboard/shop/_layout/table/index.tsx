@@ -4,8 +4,8 @@ import { BusinessDto } from '@ketero/dto';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
-import { columns } from './columns';
 import { DataTable } from './data-table';
+import columns from './columns';
 
 export default function ShopList(props) {
   const { business, loading } = useBusiness();

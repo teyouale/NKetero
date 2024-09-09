@@ -7,9 +7,18 @@ export const businessSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   workingHours: z.array(z.string()),
-  location: z.array(z.number()).length(2, {
-    message: 'Location must be an array with exactly 2 numbers (latitude and longitude)',
-  }),
+  location: z.object({
+    latitude: z.number().refine(val => !isNaN(val), {
+      message: 'Latitude must be a number',
+    }),
+    longitude: z.number().refine(val => !isNaN(val), {
+      message: 'Longitude must be a number',
+    }),
+  }).refine(data =>
+    !isNaN(data.latitude) && !isNaN(data.longitude),
+    {
+      message: 'Location must be a valid object with latitude and longitude as numbers',
+    },),
   user: userSchema,
 });
 

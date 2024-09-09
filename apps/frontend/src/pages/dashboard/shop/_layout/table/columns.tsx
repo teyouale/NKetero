@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Avatar,
   Badge,
@@ -13,14 +14,20 @@ import {
 import { MapPinSimple } from '@phosphor-icons/react';
 import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
+import { useDialog } from '@/client/stores/dialog';
+import { BusinessDto } from '@ketero/dto';
 
-export const columns: ColumnDef<any>[] = [
+const columns: ColumnDef<BusinessDto>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
     cell: ({ row }) => (
       <span
-        style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: '#666' }}
+        style={{
+          fontFamily: 'monospace',
+          fontSize: '0.85rem',
+          color: '#666',
+        }}
       >
         {row.original.id}
       </span>
@@ -30,12 +37,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: 'name',
     header: 'Business Name',
     cell: ({ row }) => (
-      <span
-        className="truncate font-medium"
-        // style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}
-      >
-        {row.original.name}
-      </span>
+      <span className="truncate font-medium">{row.original.name}</span>
     ),
   },
   {
@@ -50,7 +52,7 @@ export const columns: ColumnDef<any>[] = [
       <span>
         <Badge variant="outline" className="mr-1">
           🇪🇹
-        </Badge>{' '}
+        </Badge>
         <span style={{ fontFamily: 'monospace' }}>
           {row.original.user.phoneNumber.replace(
             /(\+\d{3})(\d{3})(\d{3})(\d{4})/,
@@ -64,7 +66,9 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: 'location',
     header: 'Location',
     cell: ({ row }) => {
-      const [latitude, longitude] = row.original.location;
+      // console.log(row.original.location);
+      const { latitude, longitude } = row.original.location;
+      console.log(latitude, longitude);
       const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
       return (
@@ -79,19 +83,28 @@ export const columns: ColumnDef<any>[] = [
       );
     },
   },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
+      const { open } = useDialog<BusinessDto>('business');
+
+      const onUpdate = (company: BusinessDto) => {
+        open('update', { id: 'business', item: company });
+      };
+
+      return (
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            onUpdate(row.original);
+          }}
+        >
+          Edit
+        </Button>
+      );
+    },
+  },
 ];
 
-// export const columns: ColumnDef<Payment>[] = [
-//   {
-//     accessorKey: 'status',
-//     header: 'Status',
-//   },
-//   {
-//     accessorKey: 'email',
-//     header: 'Email',
-//   },
-//   {
-//     accessorKey: 'amount',
-//     header: 'Amount',
-//   },
-// ];
+export default columns;

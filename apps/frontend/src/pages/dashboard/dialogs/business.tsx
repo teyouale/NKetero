@@ -174,7 +174,9 @@ const BusinessDialog = (props) => {
               name="user.email"
               control={form.control}
               render={({ field }) => (
-                <FormItem className={cn(isCreate && '')}>
+                <FormItem
+                  className={cn(isUpdate && 'col-span-full sm:col-span-2')}
+                >
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <div className="">
