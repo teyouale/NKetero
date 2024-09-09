@@ -16,6 +16,7 @@ import RoleBasedGuard from './guards/role';
 import BusinessesPage from '../pages/dashboard/shop';
 import { Role } from './utils/role.enum';
 import ReservationPage from '../pages/dashboard/reservation';
+import DashboardPage from '../pages/dashboard/home';
 
 const AuthRoutes = (
   <Route path="auth">
@@ -52,7 +53,7 @@ export const routes = createRoutesFromElements(
         <Route element={<DashboardLayout />}>
           {VirtualAssistantRoutes}
           {/* {BusinessRoutes()} */}
-          <Route index element={<h1>This Dashbaord home page</h1>} />
+          <Route index element={<DashboardPage />} />
         </Route>
         {/* <h1>ad</h1> */}
         {/* <Route element={<DashboardLayout />}> */}
