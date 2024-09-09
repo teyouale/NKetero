@@ -19,7 +19,11 @@ export default function ShopList(props) {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        {business ? <DataTable columns={columns} data={business} /> : ''}
+        {business && business.length > 0 ? (
+          <DataTable columns={columns} data={business} />
+        ) : (
+          <DataTable columns={columns} data={[]} />
+        )}
       </motion.div>
     </>
   );

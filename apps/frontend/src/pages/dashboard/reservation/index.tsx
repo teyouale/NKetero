@@ -15,30 +15,14 @@ import {
 } from '@ketero/ui';
 import { List, SquaresFour } from '@phosphor-icons/react';
 import AnalyticsSection from './section/analytics';
-import DataTable from './section/data-table';
+import DataTable from './section/table/data-table';
 import { columns } from './section/table/columus';
+import { useReservation } from '@/client/services/reservation';
 
 const ReservationPage = (props) => {
-  const tasks = [
-    {
-      shopName: 'TTK',
-      ownerName: 'owner1',
-      user: {
-        phoneNumber: '+251911223344',
-      },
-      pendingReservation: 5,
-      activeReservation: 2,
-    },
-    {
-      shopName: 'Coffee Corner and Bakery Express',
-      ownerName: 'owner1',
-      user: {
-        phoneNumber: '+251911223344',
-      },
-      pendingReservation: 5,
-      activeReservation: 9,
-    },
-  ];
+  const { reservation, loading } = useReservation();
+
+  console.log(reservation);
 
   return (
     <div>
@@ -60,7 +44,11 @@ const ReservationPage = (props) => {
               <CardDescription>Recent Business by orders.</CardDescription>
             </CardHeader>
             <CardContent>
-              <DataTable data={tasks} columns={columns} />
+              {reservation && reservation.length > 0 ? (
+                <DataTable data={reservation} columns={columns} />
+              ) : (
+                <DataTable columns={columns} data={[]} />
+              )}
             </CardContent>
           </Card>
         </main>

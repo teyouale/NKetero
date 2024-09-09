@@ -1,15 +1,16 @@
 import { Badge } from '@ketero/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './DataTableColumnHeader';
+import { businessSchema } from './data/schema';
 
-export const columns: ColumnDef<any>[] = [
+export const columns: ColumnDef<z.infer<typeof businessSchema>>[] = [
   {
-    accessorKey: 'shopName',
+    accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Shop Name" />
+      <DataTableColumnHeader column={column} title="Business Name" />
     ),
     cell: ({ row }) => (
-      <div className="w-[200px] truncate">{row.getValue('shopName')}</div>
+      <div className="w-[200px] truncate">{row.getValue('name')}</div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -19,18 +20,16 @@ export const columns: ColumnDef<any>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Owner Name" />
     ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="font-medium">{row.getValue('ownerName')}</span>
-        </div>
-      );
-    },
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <span className="font-medium">{row.getValue('ownerName')}</span>
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'user.phoneNumber',
+    accessorKey: 'phoneNumber',
     header: 'Phone Number',
     cell: ({ row }) => (
       <span>
@@ -38,22 +37,21 @@ export const columns: ColumnDef<any>[] = [
           🇪🇹
         </Badge>{' '}
         <span style={{ fontFamily: 'monospace' }}>
-          {row.original.user.phoneNumber.replace(
-            /(\+\d{3})(\d{3})(\d{3})(\d{4})/,
-            '$1 $2-$3-$4'
-          )}
+          {row
+            .getValue('phoneNumber')
+            .replace(/(\+\d{3})(\d{3})(\d{3})(\d{4})/, '$1 $2-$3-$4')}
         </span>
       </span>
     ),
   },
   {
-    accessorKey: 'pendingReservation',
+    accessorKey: 'pendingReservationsCount',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Pending Reservations" />
     ),
     cell: ({ row }) => (
       <div className="flex justify-center items-center">
-        <span>{row.getValue('pendingReservation')} </span>{' '}
+        <span>{row.getValue('pendingReservationsCount')} </span>{' '}
       </div>
     ),
     enableSorting: true,
@@ -63,13 +61,13 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: 'activeReservation',
+    accessorKey: 'activeReservationsCount',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Active Reservations" />
     ),
     cell: ({ row }) => (
       <div className="flex justify-center items-center">
-        <span>{row.getValue('activeReservation')}</span>{' '}
+        <span>{row.getValue('activeReservationsCount')}</span>{' '}
       </div>
     ),
     enableSorting: true,

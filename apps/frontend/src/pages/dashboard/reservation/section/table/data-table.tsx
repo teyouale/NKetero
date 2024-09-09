@@ -13,7 +13,7 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import React, { useState } from 'react';
-import { DataTableToolbar } from './table/DataTableToolbar';
+import { DataTableToolbar } from './DataTableToolbar';
 import {
   Table,
   TableBody,
