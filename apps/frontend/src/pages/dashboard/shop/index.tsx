@@ -43,7 +43,7 @@ const BusinessesPage = (props) => {
           </Button>
         </div>
         <ShopList />
-        <DataTableDemo />
+        {/* <DataTableDemo /> */}
       </Tabs>
     </>
   );

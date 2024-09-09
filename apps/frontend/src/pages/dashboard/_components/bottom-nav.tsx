@@ -1,12 +1,12 @@
 import React from 'react';
 import { Home, Mail, Settings, User } from 'lucide-react';
 
-const BottomNav = () => {
+const BottomNav = (props) => {
   const navItems = [
-    { name: 'Home', icon: Home, href: '/' },
-    { name: 'Messages', icon: Mail, href: '/messages' },
-    { name: 'Profile', icon: User, href: '/profile' },
-    { name: 'Settings', icon: Settings, href: '/settings' },
+    { name: 'Dashboard', icon: Home, href: '/' },
+    { name: 'Businesses', icon: Mail, href: '/dashboard/businesses' },
+    { name: 'Reservation', icon: User, href: '/dashboard/businesses' },
+    // { name: 'Settings', icon: Settings, href: '/settings' },
   ];
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t">

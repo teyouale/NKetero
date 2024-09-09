@@ -1,24 +1,47 @@
-FROM node:16 AS builder
+ARG NX_CLOUD_ACCESS_TOKEN
 
-# Create app directory
+# --- Base Image ---
+FROM node:lts-bullseye-slim AS base
+ARG NX_CLOUD_ACCESS_TOKEN
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable pnpm && corepack prepare pnpm@9.0.6 --activate
+
 WORKDIR /app
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
-COPY prisma ./prisma/
+# --- Build Image ---
+FROM base AS build
+ARG NX_CLOUD_ACCESS_TOKEN
 
-# Install app dependencies
-RUN npm install
-
+COPY .npmrc package.json pnpm-lock.yaml ./
+COPY ./prisma /app/prisma
+RUN pnpm install -f
+RUN npm i -g prisma
 COPY . .
 
-RUN npm run build
+ENV NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN
 
-FROM node:16
+RUN pnpm run build  --verbose
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
+# --- Release Image ---
+FROM base AS release
+ARG NX_CLOUD_ACCESS_TOKEN
+
+RUN apt update && apt install -y dumb-init --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+COPY --chown=node:node --from=build /app/.npmrc /app/package.json /app/pnpm-lock.yaml ./
+RUN pnpm install -f
+
+COPY --chown=node:node --from=build /app/dist ./dist
+COPY --chown=node:node --from=build /app/prisma ./prisma
+RUN pnpm run prisma:generate
+
+ENV TZ=UTC
+ENV PORT=3000
+ENV NODE_ENV=production
 
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+
+CMD [ "dumb-init", "pnpm", "run", "start" ]
