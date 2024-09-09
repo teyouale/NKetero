@@ -93,7 +93,7 @@ const getSidebarItems = (role: Role) => {
           icon: <Compass />,
         },
         {
-          path: '/dashboard/businesses',
+          path: '/dashboard/reservation',
           name: 'Reservation',
           shortcut: '⇧R',
           icon: <FadersHorizontal />,

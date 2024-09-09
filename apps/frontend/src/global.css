@@ -34,6 +34,17 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+
+    /* Primary */
+    --primary: var(--zinc-900);
+    --primary-accent: var(--zinc-800);
+    --primary-foreground: var(--zinc-50);
+
+    /* Secondary */
+    --secondary: var(--zinc-200);
+    --secondary-accent: var(--zinc-100);
+    --secondary-foreground: var(--zinc-950);
+
     /* Error */
     --error: var(--rose-500);
     --error-accent: var(--rose-400);
