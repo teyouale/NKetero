@@ -12,7 +12,8 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DataTableToolbar } from './DataTableToolbar';
 import {
   Table,
@@ -29,12 +30,9 @@ interface DataTableProps<TData, TValue> {
 }
 export function DataTable<TData, TValue>({ columns, data }) {
   const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -57,6 +55,12 @@ export function DataTable<TData, TValue>({ columns, data }) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+  const navigate = useNavigate();
+  const handleRowClick = (row) => {
+    console.log('Row clicked:', row.original);
+    navigate(row.original.businessId);
+    // You can add any other logic you need here
+  };
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -86,6 +90,7 @@ export function DataTable<TData, TValue>({ columns, data }) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => handleRowClick(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

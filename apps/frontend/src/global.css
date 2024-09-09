@@ -140,3 +140,11 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
+
+@layer components {
+  .hide-scrollbar {
+    overflow: hidden; /* Hide scrollbar */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

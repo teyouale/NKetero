@@ -5,6 +5,17 @@ import { businessSchema } from './data/schema';
 
 export const columns: ColumnDef<z.infer<typeof businessSchema>>[] = [
   {
+    accessorKey: 'businessId',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Business Name" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[200px] truncate">{row.getValue('businessId')}</div>
+    ),
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
     accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Business Name" />

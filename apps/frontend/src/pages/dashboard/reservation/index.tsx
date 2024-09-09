@@ -15,14 +15,12 @@ import {
 } from '@ketero/ui';
 import { List, SquaresFour } from '@phosphor-icons/react';
 import AnalyticsSection from './section/analytics';
-import DataTable from './section/table/data-table';
-import { columns } from './section/table/columus';
+import DataTable from './section/listTable/data-table';
+import { columns } from './section/listTable/columus';
 import { useReservation } from '@/client/services/reservation';
 
 const ReservationPage = (props) => {
   const { reservation, loading } = useReservation();
-
-  console.log(reservation);
 
   return (
     <div>
