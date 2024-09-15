@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Card,
   CardContent,
@@ -17,7 +18,10 @@ import {
   fetchMyBusinessReservation,
   findReservationByBusiness,
 } from '@/client/services/reservation';
-import { RESERVATIONS_KEY } from '@/client/constants/query-keys';
+import {
+  BUSINESS_RESERVATIONS_KEY,
+  RESERVATIONS_KEY,
+} from '@/client/constants/query-keys';
 import { queryClient } from '@/client/libs/query-client';
 import { ReservationDto } from '@ketero/dto';
 import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom';
@@ -25,7 +29,6 @@ import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom';
 const SingleReservationPage = (props) => {
   const loaderData = useLoaderData();
   const { reservation, ...businessInfo } = loaderData;
-  console.log(reservation[0].client.name);
   return (
     <Tabs className="space-y-4 ">
       <div className="flex items-center justify-between">
@@ -62,13 +65,11 @@ const SingleReservationPage = (props) => {
 
 export default SingleReservationPage;
 
-export const detailLoader: LoaderFunction<ReservationDto> = async ({
-  params,
-}) => {
+export const detailLoader: LoaderFunction = async ({ params }) => {
   try {
     const reservationID = params.reservationID!;
     const reservation = await queryClient.fetchQuery({
-      queryKey: [RESERVATIONS_KEY, { reservationID }],
+      queryKey: [BUSINESS_RESERVATIONS_KEY, { id: reservationID }],
       queryFn: () => findReservationByBusiness(reservationID),
     });
 

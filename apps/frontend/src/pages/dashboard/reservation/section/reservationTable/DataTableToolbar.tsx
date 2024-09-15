@@ -20,9 +20,9 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Filter Client..."
           value={(table.getColumn('client')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('client')?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => {
+            table.getColumn('client')?.setFilterValue(event.target.value);
+          }}
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {table.getColumn('status') && (

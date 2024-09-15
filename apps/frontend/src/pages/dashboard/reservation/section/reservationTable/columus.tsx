@@ -1,12 +1,14 @@
-import { Badge, Checkbox } from '@ketero/ui';
+// @ts-nocheck
+import { Badge, Button, Checkbox } from '@ketero/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './DataTableColumnHeader';
 import { ReservationSchema } from './data/schema';
 import { statuses } from './data/data';
+import { useUpdateReservationStatus } from '@/client/services/reservation/updatereservationstatus';
 
 export const columns: ColumnDef<ReservationSchema>[] = [
   {
-    id: 'select',
+    id: 'id',
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -38,7 +40,7 @@ export const columns: ColumnDef<ReservationSchema>[] = [
       <div className="w-[80px]">{row.original.client.name}</div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    // enableHiding: false,
   },
   {
     accessorKey: 'service',
@@ -115,13 +117,52 @@ export const columns: ColumnDef<ReservationSchema>[] = [
     },
     filterFn: (row, id, value) => {
       const price = row.getValue(id);
-      return price >= value[0] && price <= value[1]; // Filter price by range
+      return price >= value[0] && price <= value[1];
     },
-    filterType: 'between', // Enable filtering by a range
+    filterType: 'between',
   },
-  // Uncomment and customize this column if you have actions to perform
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
+  {
+    id: 'actions',
+    header: () => <div>Actions</div>,
+    cell: ({ row }) => {
+      const { updateReservation, loading } = useUpdateReservationStatus();
+      const status = row.getValue('status');
+      const id = row.original.id;
+      if (status !== 'PENDING') {
+        return null;
+      }
+      const handleAccept = async () => {
+        await updateReservation({ reservationId: id, status: 'CONFIRMED' });
+      };
+
+      const handleReject = async () => {
+        await updateReservation({ reservationId: id, status: 'CANCELLED' });
+      };
+
+      return (
+        <div className="flex space-x-2">
+          <Button
+            onClick={handleAccept}
+            disabled={loading}
+            aria-label="Confirm"
+            size="sm"
+            className="bg-green-600"
+          >
+            Confirm
+          </Button>
+          <Button
+            onClick={handleReject}
+            disabled={loading}
+            className="bg-primary"
+            aria-label="Reject"
+            size="sm"
+          >
+            Reject
+          </Button>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
 ];

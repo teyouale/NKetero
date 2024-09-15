@@ -16,6 +16,8 @@ import { CaretSortIcon, DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
 import { useDialog } from '@/client/stores/dialog';
 import { BusinessDto } from '@ketero/dto';
+import { MoreVertical } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const columns: ColumnDef<BusinessDto>[] = [
   {
@@ -66,9 +68,7 @@ const columns: ColumnDef<BusinessDto>[] = [
     accessorKey: 'location',
     header: 'Location',
     cell: ({ row }) => {
-      // console.log(row.original.location);
       const { latitude, longitude } = row.original.location;
-      console.log(latitude, longitude);
       const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
       return (
@@ -88,20 +88,40 @@ const columns: ColumnDef<BusinessDto>[] = [
     header: 'Actions',
     cell: ({ row }) => {
       const { open } = useDialog<BusinessDto>('business');
+      const navigate = useNavigate();
 
       const onUpdate = (company: BusinessDto) => {
         open('update', { id: 'business', item: company });
       };
+      const businessId = row.original.id;
 
       return (
-        <Button
-          onClick={(event) => {
-            event.stopPropagation();
-            onUpdate(row.original);
-          }}
-        >
-          Edit
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button size="icon" variant="outline" className="h-8 w-8">
+              <MoreVertical className="h-3.5 w-3.5" />
+              <span className="sr-only">More</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={(event) => {
+                event.stopPropagation();
+                onUpdate(row.original);
+              }}
+            >
+              Edit Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate(`/dashboard/service/${businessId}`);
+              }}
+            >
+              Edit Service
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },

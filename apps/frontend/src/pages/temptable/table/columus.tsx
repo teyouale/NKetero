@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Badge, Checkbox } from '@ketero/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { Task } from './data/schema';

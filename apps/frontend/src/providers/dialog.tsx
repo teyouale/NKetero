@@ -9,8 +9,6 @@ type Props = {
 };
 
 export const DialogProvider = ({ children }: Props) => {
-  const isResumeLoaded = true;
-
   return (
     <>
       {children}

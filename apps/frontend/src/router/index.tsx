@@ -20,6 +20,7 @@ import DashboardPage from '../pages/dashboard/home';
 import SingleReservationPage, {
   detailLoader,
 } from '../pages/dashboard/reservation/SingleReservationPage';
+import { categoryLoader, ServicePage } from '../pages/dashboard/services';
 
 const AuthRoutes = (
   <Route path="auth">
@@ -41,6 +42,12 @@ const VirtualAssistantRoutes = (
       loader={detailLoader}
       element={<SingleReservationPage />}
     />
+    <Route
+      path="service/:businessID"
+      loader={categoryLoader}
+      element={<ServicePage />}
+    />
+
     {/* < />
     <Route path="setting" element={<SettingPage />} />
     <Route

@@ -87,7 +87,6 @@ export class BusinessController {
           location: businessUser.location,
         },
       };
-      console.log(newbusinessUser)
 
       const output: any = await this.authService.register(newbusinessUser);
 

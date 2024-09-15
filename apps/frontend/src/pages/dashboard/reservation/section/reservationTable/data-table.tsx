@@ -33,7 +33,12 @@ export function DataTable<TData, TValue>({ columns, data }) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: 'status',
+      desc: true,
+    },
+  ]);
 
   const table = useReactTable({
     data,
@@ -56,12 +61,9 @@ export function DataTable<TData, TValue>({ columns, data }) {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
   const navigate = useNavigate();
-  const handleRowClick = (row) => {
-    console.log('Row clicked:', row.original);
-    navigate(row.original.businessId);
-    // You can add any other logic you need here
-  };
+
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -91,7 +93,6 @@ export function DataTable<TData, TValue>({ columns, data }) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  onClick={() => handleRowClick(row)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

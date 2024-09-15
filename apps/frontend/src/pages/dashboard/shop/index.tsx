@@ -12,7 +12,6 @@ import { List, SquaresFour } from '@phosphor-icons/react';
 import { useBusiness } from '@/client/services/businesses';
 import { BusinessDto } from '@ketero/dto';
 import { useDialog } from '@/client/stores/dialog';
-import { DataTableDemo } from './_layout/test';
 import ShopList from './_layout/table';
 
 const BusinessesPage = (props) => {

@@ -13,12 +13,10 @@ import { BusinessModule } from './business/business.module';
 import { AuthService } from './auth/auth.service';
 // import { ReservationService } from './reservation/reservation.service';
 import { ReservationModule } from './reservation/reservation.module';
-// import { CategoriesModule } from './categories/categories.module';
+import { CategoriesModule } from './categories/categories.module';
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { ServiceModule } from './service/service.module';
 import path from "node:path";
-// import { ServiceService } from './service/service.service';
-// import { ServiceController } from './service/service.controller';
-// import { ServiceModule } from './service/service.module';
 
 
 @Global()
@@ -31,8 +29,8 @@ import path from "node:path";
     // ProfileModule,
     BusinessModule,
     ReservationModule,
-    // CategoriesModule,
-    // ServiceModule,
+    CategoriesModule,
+    ServiceModule,
     ServeStaticModule.forRoot({
       renderPath: '/*',
       // eslint-disable-next-line unicorn/prefer-module

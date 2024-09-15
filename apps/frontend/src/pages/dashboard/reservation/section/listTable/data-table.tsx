@@ -58,7 +58,6 @@ export function DataTable<TData, TValue>({ columns, data }) {
   });
   const navigate = useNavigate();
   const handleRowClick = (row) => {
-    console.log('Row clicked:', row.original);
     navigate(row.original.businessId);
     // You can add any other logic you need here
   };

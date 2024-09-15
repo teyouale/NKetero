@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Badge } from '@ketero/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './DataTableColumnHeader';
