@@ -23,7 +23,10 @@ COPY . .
 
 ENV NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN
 
-RUN pnpm run build  --verbose
+RUN node -v && pnpm -v
+RUN pnpm run build 
+
+
 
 # --- Release Image ---
 FROM base AS release

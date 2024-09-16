@@ -1,29 +1,32 @@
 version: '3.8'
 services:
-  nest-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nest-api
-    restart: always
+  app:
+    image: teyouale/nketero:latest
+    restart: unless-stopped
     ports:
-      - '3000:3000'
+      - "3000:3000"
     depends_on:
-      - nest-postgres
-    env_file:
-      - .env
-
-  nest-postgres:
+      - postgres
+    environment:
+      ACCESS_TOKEN_SECRET :  "SECRET"
+      REFRESH_TOKEN_SECRET : "SECRET"
+      PUBLIC_URL : http://localhost:5173
+      DATABASE_URL : postgresql://prisma:topsecret@localhost:5432/Ketero?schema=public
+      
+  postgres:
     image: postgres:16-alpine
-    container_name: nest-postgres
-    restart: always
-    ports:
-      - '5432:5432'
-    env_file:
-      - .env
+    restart: unless-stopped
     volumes:
-      - nest-postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: Ketero
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: topsecret
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  nest-postgres:
-    name: nest-postgres-db
+  postgres_data:
