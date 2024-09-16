@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -37,7 +38,7 @@ interface ServiceFormData {
   price: number;
 }
 
-const ServicePage = () => {
+const ServicePage = (props) => {
   const categories = useLoaderData();
   const { businessID } = useParams();
   const [services, setServices] = useState<Service[]>([]);

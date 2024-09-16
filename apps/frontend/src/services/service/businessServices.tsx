@@ -15,7 +15,6 @@ export const useBusinessService = (businessId: string) => {
   } = useQuery({
     queryKey: ['businessServices', businessId], // Include businessId in the queryKey
     queryFn: () => fetchBusinessServices(businessId), // Pass businessId to the query function
-    cacheTime: 0, // Don't store cache
     staleTime: Infinity, // Always treat data as stale
     refetchOnMount: true, // Always refetch on component mount
     refetchOnWindowFocus: true, // Refetch when window gains focus
