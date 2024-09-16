@@ -1,49 +1,19 @@
-ARG NX_CLOUD_ACCESS_TOKEN
+# Use Node.js as the base image
+FROM node:latest
 
-# --- Base Image ---
-FROM node:20-slim AS base
-ARG NX_CLOUD_ACCESS_TOKEN
+# Set the working directory in the container
+WORKDIR .
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# Copy package.json and package-lock.json or pnpm-lock.yaml
+COPY pnpm-lock.yaml ./
+# Use pnpm-lock.yaml if you are using PNPM, or use package-lock.json for npm/yarn
 
-RUN corepack enable
+# Install dependencies using pnpm
+RUN npm install -g pnpm 
 
-WORKDIR /app
+# Copy the rest of the application code
+COPY . . 
 
-# --- Build Image ---
-FROM base AS build
-ARG NX_CLOUD_ACCESS_TOKEN
+RUN pnpm install
 
-COPY .npmrc package.json pnpm-lock.yaml ./
-COPY ./prisma /app/prisma
-RUN pnpm install --frozen-lockfile
-RUN npm i -g prisma
-COPY . .
-
-ENV NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN
-
-RUN pnpm run build 
-
-
-
-# --- Release Image ---
-FROM base AS release
-ARG NX_CLOUD_ACCESS_TOKEN
-
-RUN apt update && apt install -y dumb-init --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-COPY --chown=node:node --from=build /app/.npmrc /app/package.json /app/pnpm-lock.yaml ./
-RUN pnpm install --prod --frozen-lockfile
-
-COPY --chown=node:node --from=build /app/dist ./dist
-COPY --chown=node:node --from=build /app/prisma ./prisma
-RUN pnpm run prisma:generate
-
-ENV TZ=UTC
-ENV PORT=3000
-ENV NODE_ENV=production
-
-EXPOSE 3000
-
-CMD [ "dumb-init", "pnpm", "run", "start" ]
+RUN pnpm run -r build
