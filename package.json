@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/apps/api/main",
     "dev": "nx run-many -t serve",
-    "build": "nx run-many -t build --skip-nx-cache",
+    "build": "nx run-many -t build",
     "migrate:dev": "npx prisma migrate dev",
     "migrate:dev:create": "npx prisma migrate dev --create-only",
     "migrate:deploy": "npx prisma migrate deploy",
