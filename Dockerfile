@@ -1,13 +1,13 @@
 ARG NX_CLOUD_ACCESS_TOKEN
 
 # --- Base Image ---
-FROM node:lts-bullseye-slim AS base
+FROM node:20-slim AS base
 ARG NX_CLOUD_ACCESS_TOKEN
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN corepack enable pnpm && corepack prepare pnpm --activate
+RUN corepack enable
 
 WORKDIR /app
 
