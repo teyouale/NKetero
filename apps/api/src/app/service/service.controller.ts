@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { BadRequestException, Body, Controller, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Delete, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { BatchCreateBusinessSubcategoryDto, CreateBusinessSubcategoryDto } from '@ketero/dto';
 import { User } from '../user/decorators/user.decorator';
@@ -60,7 +60,7 @@ export class ServiceController {
             throw new BadRequestException(error.message);
         }
     }
-    @UseGuards(JwtGuard)  // Example guard to protect the route
+    // @UseGuards(JwtGuard)
     @Get('business/:businessId')
     async getBusinessSubcategories(@Param('businessId') businessId: string) {
         return this.businessSubcategoryService.findAllByBusinessId(businessId);
@@ -73,4 +73,21 @@ export class ServiceController {
         return this.businessSubcategoryService.findAll(userId);
     }
 
+    @UseGuards(JwtGuard)
+    @Post('customsubcatgory')
+    async createCustomSubcategory(
+        @Body('businessId') businessId: string,
+        @Body('name') name: string,
+        @Body('price') price: number,
+    ) {
+        return this.businessSubcategoryService.createCustomSubcategory(businessId, name, price);
+    }
+
+
+    @UseGuards(JwtGuard)
+    @Delete(':businessId/:id')
+    async removeBusinessCatagory(@Param('businessId') businessId: string, @Param('id') id: string): Promise<void> {
+        const parsedId = parseInt(id, 10);
+        return await this.businessSubcategoryService.removeBusinessCategory(businessId, parsedId);
+    }
 }

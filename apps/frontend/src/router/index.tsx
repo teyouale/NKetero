@@ -20,7 +20,7 @@ import DashboardPage from '../pages/dashboard/home';
 import SingleReservationPage, {
   detailLoader,
 } from '../pages/dashboard/reservation/SingleReservationPage';
-import { categoryLoader, ServicePage } from '../pages/dashboard/services';
+import ServicePage, { categoryLoader } from '../pages/dashboard/services';
 
 const AuthRoutes = (
   <Route path="auth">

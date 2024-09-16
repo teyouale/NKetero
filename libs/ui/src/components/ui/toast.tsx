@@ -24,14 +24,16 @@ const ToastViewport = React.forwardRef<
 ));
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
-const toastVariants = cva(
+export const toastVariants = cva(
   'group pointer-events-auto relative flex w-full items-center justify-between space-x-2 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full',
   {
     variants: {
       variant: {
         default: 'border bg-background text-foreground',
-        destructive:
-          'destructive group border-destructive bg-destructive text-destructive-foreground',
+        primary:
+          'group/primary border-primary bg-primary text-primary-foreground',
+        secondary:
+          'group/secondary border-secondary bg-secondary text-secondary-foreground',
         error: 'group/error border-error bg-error text-error-foreground',
         warning:
           'group/warning border-warning bg-warning text-warning-foreground',
@@ -68,7 +70,13 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive',
+      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-primary disabled:pointer-events-none disabled:opacity-50',
+      'group/primary:border-border/40 group-hover/primary:border-primary/30 group-hover/primary:bg-primary group-hover/primary:text-primary-foreground group-focus/primary:ring-primary',
+      'group/secondary:border-border/40 group-hover/secondary:border-secondary/30 group-hover/secondary:bg-secondary group-hover/secondary:text-secondary-foreground group-focus/secondary:ring-secondary',
+      'group/error:border-border/40 group-hover/error:border-error/30 group-hover/error:bg-error group-hover/error:text-error-foreground group-focus/error:ring-error',
+      'group/warning:border-border/40 group-hover/warning:border-warning/30 group-hover/warning:bg-warning group-hover/warning:text-warning-foreground group-focus/warning:ring-warning',
+      'group/info:border-border/40 group-hover/info:border-info/30 group-hover/info:bg-info group-hover/info:text-info-foreground group-focus/info:ring-info',
+      'group/success:border-border/40 group-hover/success:border-success/30 group-hover/success:bg-success group-hover/success:text-success-foreground group-focus/success:ring-success',
       className
     )}
     {...props}

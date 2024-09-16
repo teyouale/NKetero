@@ -18,7 +18,7 @@ type Props<T extends string> = {
   onSelectedValueChange: (value: T) => void;
   searchValue: string;
   onSearchValueChange: (value: string) => void;
-  items: { value: T; label: string }[];
+  items: { value: T; label: string; price: 0 }[];
   isLoading?: boolean;
   emptyMessage?: string;
   placeholder?: string;

@@ -112,14 +112,22 @@ export class ServiceService {
                 businessId: businessId,
             },
             include: {
-                subcategory: true,  // Include the related subcategory details if necessary
+                subcategory: {
+                    include: {
+                        category: true,
+                    }
+                },
             },
         });
-
         return businessSubcategories.map((subcategory) => ({
-            subcategoryId: subcategory.subcategoryId,
-            label: subcategory.subcategory.name,  // Assuming the name is stored in the subcategory entity
+            id: subcategory.subcategoryId,
+            name: subcategory.subcategory.name,
+            description: subcategory.subcategory.description,
             price: subcategory.price,
+            category: {
+                id: subcategory.subcategory.categoryId,
+                name: subcategory.subcategory.category.name
+            }
         }));
     }
 
@@ -133,4 +141,72 @@ export class ServiceService {
         });
     }
 
+    async createCustomSubcategory(businessId: string, name: string, price: number) {
+        let customCategory = await this.prisma.category.findUnique({
+            where: { name: 'Custom' },
+        });
+
+        if (!customCategory) {
+            customCategory = await this.prisma.category.create({
+                data: {
+                    name: 'Custom',
+                    description: 'Custom category for user-defined subcategories',
+                },
+            });
+        }
+
+        const subcategory = await this.prisma.subcategory.create({
+            data: {
+                name,
+                description: 'Custom subcategory created by user',
+                categoryId: customCategory.id,
+            },
+        });
+
+        const createdCataogry = await this.prisma.businessSubcategory.create({
+            data: {
+                businessId,
+                subcategoryId: subcategory.id,
+                price,
+            },
+            include: {
+                subcategory: {
+                    include: {
+                        category: true,
+                    }
+                },
+            },
+        });
+
+        return {
+            id: createdCataogry.subcategoryId,
+            name: createdCataogry.subcategory.name,
+            description: createdCataogry.subcategory.description,
+            price: createdCataogry.price,
+            category: {
+                id: createdCataogry.subcategory.categoryId,
+                name: createdCataogry.subcategory.category.name
+            }
+        };
+
+    }
+
+    async removeBusinessCategory(businessId: string, id: number): Promise<void> {
+        // return { id: id, businessId: businessId }
+        const subcategory = await this.prisma.businessSubcategory.findFirst({
+            where: {
+                subcategoryId: id,
+                businessId: businessId,
+            },
+        });
+        // return subcategory;
+        // console.log(id, businessId)
+        if (!subcategory) {
+            throw new NotFoundException(`BusinessSubcategory with ID ${id} for Business ${businessId} not found`);
+        }
+
+        return await this.prisma.businessSubcategory.delete({
+            where: { id: subcategory.id },
+        });
+    }
 }

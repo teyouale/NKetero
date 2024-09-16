@@ -19,7 +19,7 @@ export const useService = () => {
         isLoading,
         data: services,
     } = useQuery({
-        queryKey: [MY_CATEGORIES_KEY], // Use the correct key here
+        queryKey: [MY_CATEGORIES_KEY],
         queryFn: fetchMyService,
     });
 
