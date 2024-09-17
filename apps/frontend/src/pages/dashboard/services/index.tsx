@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -25,6 +24,7 @@ import { fetchAllCategories } from '@/client/services/service';
 import { useBusinessService } from '@/client/services/service/businessServices';
 import { useCreateCustomSubcategory } from '@/client/services/service/customservice';
 import { useDeleteBusinessSubcategory } from '@/client/services/service/deleteBusinessServices';
+import { useUpdateBusinessSubcategories } from '@/client/services/service/update';
 
 interface Service {
   id: number;
@@ -101,6 +101,9 @@ const ServicePage = (props) => {
   const { deleteSubcategory, loading: isDeleteCatagory } =
     useDeleteBusinessSubcategory();
 
+  const { updateBusinessSubcategories, loading: isUpating } =
+    useUpdateBusinessSubcategories();
+
   const handleEdit = (id: number) => {
     const serviceToEdit = selectedCategories.find(
       (service) => service.id === id
@@ -117,13 +120,12 @@ const ServicePage = (props) => {
         service.id === id ? { ...service, ...data } : service
       )
     );
-    console.log(setSelectedCategories);
     setEditingId(null);
-    toast({
-      title: 'Service Updated',
-      description: 'Your service has been successfully updated.',
-      variant: 'success',
-    });
+    // toast({
+    //   title: 'Service Updated',
+    //   description: 'Your service has been successfully updated.',
+    //   variant: 'success',
+    // });
   };
 
   const handleDelete = async (id: number) => {
@@ -173,15 +175,33 @@ const ServicePage = (props) => {
 
   const updateSelectedCategories = async () => {
     setIsUpdating(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    try {
+      const mappedArray = {
+        businessSubcategories: selectedCategories.map((item) => ({
+          subcategoryId: item.id,
+          price: +item.price,
+        })),
+      };
+      console.log(mappedArray);
+      await updateBusinessSubcategories({
+        data: mappedArray,
+        businessID,
+      });
+      // toast({
+      //   title: 'Selected Categories Updated',
+      //   description:
+      //     'All selected categories have been successfully updated on the server.',
+      //   variant: 'success',
+      // });
+    } catch (error) {
+      toast({
+        title: 'Update Failed',
+        description: 'There was an error updating the subcategories.',
+        variant: 'error',
+      });
+    }
     setIsUpdating(false);
-    toast({
-      title: 'Selected Categories Updated',
-      description:
-        'All selected categories have been successfully updated on the server.',
-      variant: 'success',
-    });
   };
 
   return (

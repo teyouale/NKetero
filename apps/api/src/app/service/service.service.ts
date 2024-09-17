@@ -82,6 +82,44 @@ export class ServiceService {
             updated: updated.length
         };
     }
+    async BusinesscreateOrUpdateMany(dto: { businessSubcategories: CreateBusinessSubcategoryDto[] }, businessID: string) {
+
+        const subcategoriesWithBusinessId = dto.businessSubcategories.map(subcategory => ({
+            ...subcategory,
+            businessId: businessID
+        }));
+
+        // Fetch existing BusinessSubcategory records for the business
+        const existingSubcategories = await this.prisma.businessSubcategory.findMany({
+            where: { businessId: businessID },
+            select: { subcategoryId: true }
+        });
+
+        const existingSubcategoryIds = new Set(existingSubcategories.map(sub => sub.subcategoryId));
+
+        // Separate into create and update operations
+        const toCreate = subcategoriesWithBusinessId.filter(subcategory => !existingSubcategoryIds.has(subcategory.subcategoryId));
+        const toUpdate = subcategoriesWithBusinessId.filter(subcategory => existingSubcategoryIds.has(subcategory.subcategoryId));
+
+        // Perform bulk operations
+        const created = toCreate.length ? await this.prisma.businessSubcategory.createMany({
+            data: toCreate
+        }) : { count: 0 };
+
+        const updated = toUpdate.length ? await Promise.all(
+            toUpdate.map(subcategory =>
+                this.prisma.businessSubcategory.update({
+                    where: { businessId_subcategoryId: { businessId: businessID, subcategoryId: subcategory.subcategoryId } },
+                    data: { price: subcategory.price } // Update only the price or other fields as needed
+                })
+            )
+        ) : [];
+
+        return {
+            created: created.count,
+            updated: updated.length
+        };
+    }
 
     async findAll(userId: string) {
         // Find the business associated with the user

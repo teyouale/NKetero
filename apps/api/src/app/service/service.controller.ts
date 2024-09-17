@@ -60,6 +60,29 @@ export class ServiceController {
             throw new BadRequestException(error.message);
         }
     }
+
+    @Patch('bulk/:businessID')
+    @UseGuards(JwtGuard)
+    async BulkCreateOrUpdate(
+        @Body() dto: { businessSubcategories: CreateBusinessSubcategoryDto[] },
+        @Param('businessID') businessID: string
+    ) {
+
+        if (!dto || !Array.isArray(dto.businessSubcategories)) {
+            throw new BadRequestException('Invalid data format');
+        }
+        // return businessID;
+
+        try {
+            const result = await this.businessSubcategoryService.BusinesscreateOrUpdateMany(dto, businessID);
+            return {
+                message: 'Bulk update successful',
+                result,
+            };
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
     // @UseGuards(JwtGuard)
     @Get('business/:businessId')
     async getBusinessSubcategories(@Param('businessId') businessId: string) {
