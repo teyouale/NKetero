@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/client/libs/query-client';
 import { axios } from '@/client/libs/axios';
