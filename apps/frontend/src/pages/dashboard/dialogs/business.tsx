@@ -72,10 +72,10 @@ const BusinessDialog = (props) => {
       name: '',
       description: '',
       user: {
-        name: 'eyouale',
-        username: 'teyouale101',
-        email: 'teyouale123@gmail.com',
-        phoneNumber: '123123123',
+        name: '',
+        username: '',
+        email: '',
+        phoneNumber: '',
       },
     },
   });

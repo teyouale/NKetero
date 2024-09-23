@@ -31,7 +31,7 @@ export const LoginPage = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { identifier: 'teyouale2', password: 'teyouale' },
+    defaultValues: { identifier: '', password: '' },
   });
 
   const onSubmit = async (data: FormValues) => {

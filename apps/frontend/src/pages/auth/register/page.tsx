@@ -39,12 +39,12 @@ export const RegisterPage = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: 'teyouale',
-      username: 'teyouale',
-      email: 'teyouale@gmail.com',
-      password: 'teyouale',
-      phoneNumber: '+251938069240',
-      role: 'Client',
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      phoneNumber: '',
+      role: 'VirtualAssistant',
     },
   });
 
@@ -126,7 +126,7 @@ export const RegisterPage = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="role"
               render={({ field }) => (
@@ -153,7 +153,7 @@ export const RegisterPage = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               name="phoneNumber"
               control={form.control}

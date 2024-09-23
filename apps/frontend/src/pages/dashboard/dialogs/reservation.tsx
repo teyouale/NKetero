@@ -39,7 +39,7 @@ const formSchema = createUserReservationSchema.extend({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const ReservationDialog = () => {
+const ReservationDialog = (props) => {
   const { isOpen, mode, payload, close } =
     useDialog<CreateBusinessUserDto>('reservation');
 
@@ -57,12 +57,12 @@ const ReservationDialog = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       businessId: '',
-      name: 'aadfadf',
-      username: 'aadfadf',
-      email: 'aadfadf',
-      phoneNumber: 'daadfadf',
+      name: '',
+      username: '',
+      email: '',
+      phoneNumber: '',
       date: new Date(),
-      service: 'asdfs',
+      service: '',
     },
   });
 
