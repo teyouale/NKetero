@@ -52,6 +52,7 @@ model Business {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservation  Reservation[]
   businessSubcategories BusinessSubcategory[] @relation("BusinessToSubcategory")
+  
   @@map("businesses")
 }
 

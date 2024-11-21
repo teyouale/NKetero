@@ -21,7 +21,9 @@ import SingleReservationPage, {
   detailLoader,
 } from '../pages/dashboard/reservation/SingleReservationPage';
 import ServicePage, { categoryLoader } from '../pages/dashboard/services';
-
+import BusinessReservationPage, {
+  detailLoaderBusiness,
+} from '../pages/dashboard/reservation/_layout/DetailReservationPage';
 const AuthRoutes = (
   <Route path="auth">
     <Route element={<AuthLayout />}>
@@ -57,7 +59,17 @@ const VirtualAssistantRoutes = (
     /> */}
   </Route>
 );
-// const BusinessRoutes = ();
+const BusinessRoutes = () => (
+  <Route element={<RoleBasedGuard roles={[Role.Business]} />}>
+    <Route
+      path="myreservation"
+      loader={detailLoaderBusiness}
+      element={<BusinessReservationPage />}
+    />
+    {/* <Route path="profile" element={<ProfilePage />} /> */}
+    <Route path="service" loader={categoryLoader} element={<ServicePage />} />
+  </Route>
+);
 
 export const routes = createRoutesFromElements(
   <Route element={<Providers />}>
@@ -67,7 +79,7 @@ export const routes = createRoutesFromElements(
       <Route element={<AuthGuard />}>
         <Route element={<DashboardLayout />}>
           {VirtualAssistantRoutes}
-          {/* {BusinessRoutes()} */}
+          {BusinessRoutes()}
           <Route index element={<DashboardPage />} />
         </Route>
         {/* <h1>ad</h1> */}

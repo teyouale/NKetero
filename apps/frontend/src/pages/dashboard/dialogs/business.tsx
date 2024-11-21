@@ -278,7 +278,7 @@ const BusinessDialog = (props) => {
           <Alert variant="info">
             <div className="prose prose-neutral max-w-full text-sm leading-relaxed text-black dark:prose-invert">
               <span className="font-medium">Note: </span>
-              Owner password is <span className="font-medium">abcd@1234</span>'.
+              Owner password is <span className="font-medium">abcd1234</span>'.
               Please change and edit the business details on the dashboard.
             </div>
           </Alert>
