@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -18,6 +17,7 @@ import {
   Badge,
   toast,
   Label,
+  Separator,
 } from '@ketero/ui';
 import { Pencil, Save, Plus, Trash2, RefreshCw } from 'lucide-react';
 import { redirect, useLoaderData, useParams } from 'react-router-dom';
@@ -27,6 +27,7 @@ import { useBusinessService } from '@/client/services/service/businessServices';
 import { useCreateCustomSubcategory } from '@/client/services/service/customservice';
 import { useDeleteBusinessSubcategory } from '@/client/services/service/deleteBusinessServices';
 import { useUpdateBusinessSubcategories } from '@/client/services/service/update';
+import WorkingHours from '../workinghours';
 
 interface Service {
   id: number;
@@ -207,187 +208,201 @@ const ServicePage = (props) => {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          Services Management
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid gap-3">
-          <Label htmlFor="name">Add My Services</Label>
-          <FancyMultiSelect
-            CatagoryData={services}
-            selected={selectedCategories}
-            setSelected={setSelectedCategories}
-          />
-        </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[40%]">Service Name</TableHead>
-              <TableHead className="w-[20%]">Price</TableHead>
-              <TableHead className="w-[40%]">Action</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {selectedCategories.map((service) => (
-              <TableRow key={service.id}>
-                <TableCell>
-                  {editingId === service.id ? (
-                    <Controller
-                      name="name"
-                      control={editControl}
-                      rules={{ required: 'Name is required' }}
-                      render={({ field }) => (
-                        <Input
-                          {...field}
-                          className={editErrors.name ? 'border-primary' : ''}
-                        />
-                      )}
-                    />
-                  ) : (
-                    <div>
-                      {service.name}
-                      <Badge variant="secondary" className="ml-2">
-                        {service.category}
-                      </Badge>
-                    </div>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {editingId === service.id ? (
-                    <Controller
-                      name="price"
-                      control={editControl}
-                      rules={{
-                        required: 'Price is required',
-                        min: { value: 0, message: 'Price must be positive' },
-                      }}
-                      render={({ field }) => (
-                        <Input
-                          {...field}
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          className={editErrors.price ? 'border-primary' : ''}
-                        />
-                      )}
-                    />
-                  ) : (
-                    `${(Number(service.price) || 0).toFixed(2)} Birr`
-                  )}
-                </TableCell>
-                <TableCell>
-                  {editingId === service.id ? (
-                    <Button
-                      onClick={handleEditSubmit((data) =>
-                        handleSave(service.id, data)
-                      )}
-                      size="sm"
-                      className="mr-2"
-                    >
-                      <Save className="w-4 h-4 mr-1" /> Save
-                    </Button>
-                  ) : (
-                    <>
+    <>
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">
+            Services Management
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3">
+            <Label htmlFor="name">Add My Services</Label>
+            <FancyMultiSelect
+              CatagoryData={services}
+              selected={selectedCategories}
+              setSelected={setSelectedCategories}
+            />
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[40%]">Service Name</TableHead>
+                <TableHead className="w-[20%]">Price</TableHead>
+                <TableHead className="w-[40%]">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {selectedCategories.map((service) => (
+                <TableRow key={service.id}>
+                  <TableCell>
+                    {editingId === service.id ? (
+                      <Controller
+                        name="name"
+                        control={editControl}
+                        rules={{ required: 'Name is required' }}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            className={editErrors.name ? 'border-primary' : ''}
+                          />
+                        )}
+                      />
+                    ) : (
+                      <div>
+                        {service.name}
+                        <Badge variant="secondary" className="ml-2">
+                          {service.category}
+                        </Badge>
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {editingId === service.id ? (
+                      <Controller
+                        name="price"
+                        control={editControl}
+                        rules={{
+                          required: 'Price is required',
+                          min: { value: 0, message: 'Price must be positive' },
+                        }}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            className={editErrors.price ? 'border-primary' : ''}
+                          />
+                        )}
+                      />
+                    ) : (
+                      `${(Number(service.price) || 0).toFixed(2)} Birr`
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {editingId === service.id ? (
                       <Button
-                        onClick={() => handleEdit(service.id)}
+                        onClick={handleEditSubmit((data) =>
+                          handleSave(service.id, data)
+                        )}
                         size="sm"
-                        variant="outline"
                         className="mr-2"
                       >
-                        <Pencil className="w-4 h-4 mr-1" /> Edit
+                        <Save className="w-4 h-4 mr-1" /> Save
                       </Button>
-                      <Button
-                        onClick={() => handleDelete(service.id)}
-                        size="sm"
-                        variant="destructive"
-                        className="bg-primary"
-                      >
-                        <Trash2 className="w-4 h-4 mr-1" /> Delete
-                      </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <div className="mt-6 flex justify-end">
-          <Button onClick={updateSelectedCategories} disabled={isUpdating}>
-            {isUpdating ? (
-              <>
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> Updating...
-              </>
-            ) : (
-              <>
-                <RefreshCw className="w-4 h-4 mr-2" /> Update Selected
-                Categories
-              </>
-            )}
-          </Button>
-        </div>
-
-        <form
-          onSubmit={handleSubmit(addCustomService)}
-          className="mt-6 space-y-4"
-        >
-          <h3 className="text-lg font-semibold">Add New Custom Service</h3>
-          <div className="flex space-x-4">
-            <div className="flex-1">
-              <Controller
-                name="name"
-                control={control}
-                rules={{ required: 'Name is required' }}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    placeholder="Service Name"
-                    className={errors.name ? 'border-primary' : ''}
-                  />
-                )}
-              />
-              {errors.name && (
-                <p className="text-primary text-sm mt-1">
-                  {errors.name.message}
-                </p>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => handleEdit(service.id)}
+                          size="sm"
+                          variant="outline"
+                          className="mr-2"
+                        >
+                          <Pencil className="w-4 h-4 mr-1" /> Edit
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(service.id)}
+                          size="sm"
+                          variant="destructive"
+                          className="bg-primary"
+                        >
+                          <Trash2 className="w-4 h-4 mr-1" /> Delete
+                        </Button>
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className="mt-6 flex justify-end">
+            <Button onClick={updateSelectedCategories} disabled={isUpdating}>
+              {isUpdating ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />{' '}
+                  Updating...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2" /> Update Selected
+                  Categories
+                </>
               )}
-            </div>
-            <div className="flex-1">
-              <Controller
-                name="price"
-                control={control}
-                rules={{
-                  required: 'Price is required',
-                  min: { value: 0, message: 'Price must be positive' },
-                }}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="Price"
-                    className={errors.price ? 'border-primary' : ''}
-                  />
-                )}
-              />
-              {errors.price && (
-                <p className="text-primary text-sm mt-1">
-                  {errors.price.message}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <Button type="submit">
-              <Plus className="w-4 h-4 mr-2" /> Add Custom Service
             </Button>
           </div>
-        </form>
-      </CardContent>
-    </Card>
+
+          <form
+            onSubmit={handleSubmit(addCustomService)}
+            className="mt-6 space-y-4"
+          >
+            <h3 className="text-lg font-semibold">Add New Custom Service</h3>
+            <div className="flex space-x-4">
+              <div className="flex-1">
+                <Controller
+                  name="name"
+                  control={control}
+                  rules={{ required: 'Name is required' }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Service Name"
+                      className={errors.name ? 'border-primary' : ''}
+                    />
+                  )}
+                />
+                {errors.name && (
+                  <p className="text-primary text-sm mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+              <div className="flex-1">
+                <Controller
+                  name="price"
+                  control={control}
+                  rules={{
+                    required: 'Price is required',
+                    min: { value: 0, message: 'Price must be positive' },
+                  }}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="Price"
+                      className={errors.price ? 'border-primary' : ''}
+                    />
+                  )}
+                />
+                {errors.price && (
+                  <p className="text-primary text-sm mt-1">
+                    {errors.price.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">
+                <Plus className="w-4 h-4 mr-2" /> Add Custom Service
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+      <br />
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">
+            Working Hours Management
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <WorkingHours />
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
