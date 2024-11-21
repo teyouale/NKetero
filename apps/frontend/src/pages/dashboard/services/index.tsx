@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -20,7 +19,12 @@ import {
   Separator,
 } from '@ketero/ui';
 import { Pencil, Save, Plus, Trash2, RefreshCw } from 'lucide-react';
-import { redirect, useLoaderData, useParams } from 'react-router-dom';
+import {
+  redirect,
+  useLoaderData,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { FancyMultiSelect } from './fancy-multi-select';
 import { fetchAllCategories } from '@/client/services/service';
 import { useBusinessService } from '@/client/services/service/businessServices';
@@ -28,6 +32,8 @@ import { useCreateCustomSubcategory } from '@/client/services/service/customserv
 import { useDeleteBusinessSubcategory } from '@/client/services/service/deleteBusinessServices';
 import { useUpdateBusinessSubcategories } from '@/client/services/service/update';
 import WorkingHours from '../workinghours';
+import { useUser } from '@/client/services/user';
+import { fetchBusiness, useBusiness } from '@/client/services/businesses';
 
 interface Service {
   id: number;
@@ -43,11 +49,26 @@ interface ServiceFormData {
 
 const ServicePage = (props) => {
   const categories = useLoaderData();
-  const { businessID } = useParams();
+  const business = useBusiness();
+  const navigate = useNavigate();
+  const { businessID: paramBusinessID } = useParams();
+  const user = useUser();
+
+  const businessID = paramBusinessID || business?.business?.id;
+
   const [services, setServices] = useState<Service[]>([]);
-  const { MyServices = [], loading, error } = useBusinessService(businessID);
   const [selectedCategories, setSelectedCategories] = useState<Service[]>([]);
 
+  const { MyServices = [], loading, error } = useBusinessService(businessID);
+
+  useEffect(() => {
+    if (!businessID) {
+      // Redirect to dashboard if businessID is missing
+      navigate('/dashboard', { replace: true });
+    }
+  }, [businessID, navigate]);
+
+  // console.log(data);
   const {
     control,
     handleSubmit,
