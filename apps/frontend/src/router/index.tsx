@@ -30,6 +30,7 @@ const AuthRoutes = (
       <Route element={<GuestGuard />}>
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        
       </Route>
     </Route>
   </Route>
