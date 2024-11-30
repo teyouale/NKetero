@@ -126,7 +126,7 @@ export const RegisterPage = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="role"
               render={({ field }) => (
@@ -153,7 +153,7 @@ export const RegisterPage = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               name="phoneNumber"
               control={form.control}

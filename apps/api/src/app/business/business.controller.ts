@@ -40,6 +40,7 @@ export class BusinessController {
     const user = req.user; // Assuming req.user contains the decoded JWT payload
     // Check user role and return the appropriate response
     if (user.role === Role.Business) {
+    // console.log(user.userId)
       return this.businessService.getMyBusinesses(user.userId);
     } else if (
       user.role === Role.VirtualAssistant ||

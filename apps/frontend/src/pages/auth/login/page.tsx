@@ -16,7 +16,7 @@ import {
 import { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 import { useLogin } from '@/client/services/auth';
@@ -25,7 +25,6 @@ type FormValues = z.infer<typeof loginSchema>;
 
 export const LoginPage = () => {
   const { login, loading } = useLogin();
-  const navigate = useNavigate();
 
   const formRef = useRef<HTMLFormElement>(null);
   usePasswordToggle(formRef);
@@ -37,18 +36,8 @@ export const LoginPage = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await login(data);
-      const userRole = response.user.role;
-
-      const redirectPath = userRole === 'VirtualAssistant'
-        ? '/dashboard/va'
-        : userRole === 'Business'
-        ? '/dashboard/business'
-        : '/dashboard/client';
-
-      navigate(redirectPath);
-    } catch (err) {
-      console.error(err);
+      await login(data);
+    } catch {
       form.reset();
     }
   };
@@ -88,7 +77,7 @@ export const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="ketero.reserve@gmail.com" {...field} />
+                    <Input placeholder="john.doe@example.com" {...field} />
                   </FormControl>
                   <FormDescription>
                     You can also enter your username.
@@ -105,11 +94,7 @@ export const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
+                    <Input type="password" {...field} />
                   </FormControl>
                   <FormDescription>
                     Hold <code className="text-xs font-bold">Ctrl</code> to
