@@ -33,3 +33,4 @@ export const Logo = ({ size = 32, className }: Props) => {
     />
   );
 };
+

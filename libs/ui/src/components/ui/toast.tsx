@@ -22,6 +22,7 @@ const ToastViewport = React.forwardRef<
     {...props}
   />
 ));
+
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 export const toastVariants = cva(

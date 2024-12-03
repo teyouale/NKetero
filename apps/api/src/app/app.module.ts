@@ -33,7 +33,6 @@ import path from "node:path";
     ServiceModule,
     ServeStaticModule.forRoot({
       renderPath: '/*',
-      // eslint-disable-next-line unicorn/prefer-module
       rootPath: path.join(__dirname, '..', 'frontend'),
     }),
     // ServiceModule,

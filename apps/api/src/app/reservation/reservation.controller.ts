@@ -17,7 +17,7 @@ import {
   CreateReservationDto,
   CreateUserReservationDto,
   GetBusinessesReservationDto,
-  UpdateReservationDto,
+  // UpdateReservationDto,
 } from '@ketero/dto';
 import { Roles } from '../auth/utils/role.decorator';
 import { Role } from '../auth/utils/role.enum';

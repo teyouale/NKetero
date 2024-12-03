@@ -62,7 +62,7 @@ export class AuthController {
     isTwoFactorAuth = false,
     redirect = false
   ) {
-    let status = 'authenticated';
+    const status = 'authenticated';
 
     const baseUrl = this.configService.get('PUBLIC_URL');
     const redirectUrl = new URL(`${baseUrl}/auth/callback`);

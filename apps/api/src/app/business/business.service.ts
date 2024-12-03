@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts- 
 import { RegisterDto, UpdateBusinessDto } from '@ketero/dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
