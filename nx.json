@@ -14,7 +14,7 @@
     ],
     "sharedGlobals": []
   },
-  "nxCloudAccessToken": "MmFlZTY4MjQtOTQwZS00YzUxLWEwZDQtODA4OWFlYTU5Y2E0fHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "ODc2NWY0ZTgtYjI4Zi00ZjM0LTkzODQtZWJmYWE2MTY2MTUyfHJlYWQtd3JpdGU=",
   "plugins": [
     {
       "plugin": "@nx/webpack/plugin",
@@ -24,17 +24,10 @@
         "previewTargetName": "preview"
       }
     },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
     {
       "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      },
+      "options": { "targetName": "test" },
       "exclude": ["apps/api-e2e/**/*"]
     },
     {
@@ -65,13 +58,8 @@
         "linter": "eslint",
         "bundler": "vite"
       },
-      "component": {
-        "style": "tailwind"
-      },
-      "library": {
-        "style": "tailwind",
-        "linter": "eslint"
-      }
+      "component": { "style": "tailwind" },
+      "library": { "style": "tailwind", "linter": "eslint" }
     }
   }
 }
