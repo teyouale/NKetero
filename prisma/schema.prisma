@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  role          Role
+  name          String
+  phoneNumber   String?
+  business      Business?
+  secrets       Secrets?
+  emailVerified Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  reservation  Reservation[]
+  @@map("users")
+}
+
+model Secrets {
+  id                   String   @id @default(cuid())
+  password             String?
+  lastSignedIn         DateTime @default(now())
+  verificationToken    String?
+  refreshToken         String?
+  resetToken           String?  @unique
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, id])
+}
+
+
+model Business {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  workingHours String[]
+  location     Json
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservation  Reservation[]
+  businessSubcategories BusinessSubcategory[] @relation("BusinessToSubcategory")
+  
+  @@map("businesses")
+}
+
+model Reservation {
+  id             String    @id @default(cuid())
+  clientId       String
+  businessId     String
+  service        String
+  date           DateTime
+   price          Int                 @default(0)
+  status         ReservationStatus @default(PENDING)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  client         User      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  business       Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  @@index([clientId])
+  @@index([businessId])
+  @@map("reservations")
+}
+
+enum Role {
+  Client
+  Business
+  VirtualAssistant
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Category {
+  id          Int           @id @default(autoincrement())
+  name        String @unique
+  description String?
+  subcategories Subcategory[]
+}
+model Subcategory {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+  businessSubcategories BusinessSubcategory[] @relation("SubcategoryToBusiness")
+}
+
+model BusinessSubcategory {
+  id             Int         @id @default(autoincrement())
+  businessId     String
+  subcategoryId  Int
+  price          Float
+
+  business       Business    @relation("BusinessToSubcategory", fields: [businessId], references: [id], onDelete: Cascade)
+  subcategory    Subcategory @relation("SubcategoryToBusiness", fields: [subcategoryId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, subcategoryId])
+  @@index([businessId])
+  @@index([subcategoryId])
+  @@map("business_subcategories")
+}

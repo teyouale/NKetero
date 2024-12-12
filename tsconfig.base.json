@@ -1,0 +1,58 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
+    "strict": false,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/client/*": [
+        "apps/frontend/src/*"
+      ],
+      "@/server/*": [
+        "apps/api/src/*"
+      ],
+      "@ketero/dto": [
+        "libs/dto/src/index.ts"
+      ],
+      "@ketero/ui": [
+        "libs/ui/src/index.ts"
+      ],
+      "@ketero/ui/*": [
+        "libs/ui/src/*"
+      ],
+      "@ketero/hooks": [
+        "libs/hooks/src/index.ts"
+      ],
+      "@ketero/utils": [
+        "libs/utils/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
+}

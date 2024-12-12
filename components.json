@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tailwind": {
+    "config": "apps/frontend/tailwind.config.js",
+    "css": "    apps/frontend/src/global.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@ketero/ui/components",
+    "utils": "@ketero/ui/utils"
+  }
+}
