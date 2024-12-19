@@ -5,7 +5,7 @@ import {
   Navigate,
   Route,
 } from 'react-router-dom';
-import  UserProfile  from '../pages/dashboard/Profile/UserProfile/UserProfile';
+import UserProfile from '../pages/dashboard/Profile/UserProfile/UserProfile';
 import { AuthLayout } from '../pages/auth/layout';
 import { GuestGuard } from './guards/guest';
 import { LoginPage } from '../pages/auth/login/page';
@@ -25,7 +25,11 @@ import ServicePage, { categoryLoader } from '../pages/dashboard/services';
 import BusinessReservationPage, {
   detailLoaderBusiness,
 } from '../pages/dashboard/reservation/_layout/DetailReservationPage';
-import { Settings } from 'lucide-react';
+import ClientLayout from '../pages/dashboard/client/layout';
+import BusinessPage, {
+  CompanydetailLoader,
+} from '../pages/dashboard/client/components/BusinessPage';
+import ClientHomePage from '../pages/dashboard/client/page';
 
 // Auth Routes
 const AuthRoutes = (
@@ -71,6 +75,20 @@ const BusinessRoutes = (
   </Route>
 );
 
+const ClientRoutes = (
+  <Route element={<ClientLayout />}>
+    <Route element={<RoleBasedGuard roles={[Role.Client]} />}>
+      <Route
+        path="business/:businessID"
+        element={<BusinessPage />}
+        loader={CompanydetailLoader}
+      />
+      <Route path="Settings" element={<UserProfile />} />
+      <Route index element={<ClientHomePage />} />
+    </Route>
+  </Route>
+);
+
 export const routes = createRoutesFromElements(
   <Route element={<Providers />}>
     {AuthRoutes}
@@ -80,6 +98,7 @@ export const routes = createRoutesFromElements(
         <Route element={<DashboardLayout />}>
           {VirtualAssistantRoutes}
           {BusinessRoutes}
+          {ClientRoutes}
           <Route index element={<DashboardPage />} />
         </Route>
       </Route>
