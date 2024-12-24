@@ -83,6 +83,7 @@ const ClientRoutes = (
         element={<BusinessPage />}
         loader={CompanydetailLoader}
       />
+      <Route path="reservation" element={<ReservationPage />} />
       <Route path="Settings" element={<UserProfile />} />
       <Route index element={<ClientHomePage />} />
     </Route>
