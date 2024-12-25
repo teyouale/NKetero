@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { COMPANY_KEY } from '../../../../constants/query-keys';
 import { queryClient } from '../../../../libs/query-client';
 import { fetchCompany } from '../../../../services/businesses/company';
@@ -6,28 +7,67 @@ import { useUser } from '../../../../services/user/user';
 import { useDialog } from '../../../../stores/dialog';
 import { Button } from '@ketero/ui';
 import { EyeSlash, HairDryer, Hand, SmileyXEyes } from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
 import { LoaderFunction, redirect, useLoaderData } from 'react-router-dom';
 
 interface CompanyProfile {
-  id: any;
+  id: string;
   name: string;
-  user: {
-    phoneNumber: string;
-  };
+  user: { phoneNumber: string };
   description: string;
 }
 
-const BusinessPage = (props) => {
+const ReserveDialog = ({
+  companyProfile,
+  onClose,
+}: {
+  companyProfile: CompanyProfile;
+  onClose: () => void;
+}) => {
+  const handleSubmit = async () => {
+    try {
+      // Perform reservation logic (e.g., API call)
+      alert(`Reservation successfully made for ${companyProfile.name}`);
+      onClose();
+    } catch (error) {
+      console.error('Reservation failed:', error);
+      alert('An error occurred while making the reservation.');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded-md shadow-md">
+        <h2 className="text-lg font-bold">Reserve at {companyProfile.name}</h2>
+        <p>Contact: {companyProfile.user.phoneNumber}</p>
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            onClick={handleSubmit}
+          >
+            Confirm Reservation
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BusinessPage = () => {
   const { user } = useUser();
   const companyProfile = useLoaderData() as CompanyProfile | null;
-  const { open } = useDialog<any>('client');
+  const { open, close, dialog } = useDialog<any>('client');
   const [loading, setLoading] = useState<boolean>(true);
   const [subcategories, setSubcategories] = useState<
     { subcategoryId: number; label: string; price: number }[]
   >([]);
 
-  const businessId = companyProfile?.id; // Ensure we are using the correct business ID
+  const businessId = companyProfile?.id;
 
   useEffect(() => {
     const loadSubcategories = async () => {
@@ -40,6 +80,8 @@ const BusinessPage = (props) => {
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     };
 
@@ -47,15 +89,12 @@ const BusinessPage = (props) => {
   }, [businessId]);
 
   if (loading) {
-    return <div>Loading...</div>; // Loading state
+    return <div>Loading...</div>;
   }
 
   const onOpen = () => {
     if (companyProfile) {
-      open('reserve', {
-        companyProfile,
-        id: companyProfile.id,
-      });
+      open('reserve', { companyProfile });
     } else {
       console.error('Company profile is not available.');
     }
@@ -86,51 +125,10 @@ const BusinessPage = (props) => {
               <code className="text-2xl font-extrabold text-gray-900 sm:text-3xl ">
                 {companyProfile?.user?.phoneNumber || 'Phone Number'}
               </code>
-              <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, index) => (
-                    <svg
-                      key={index}
-                      className="w-4 h-4 text-yellow-300"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-sm font-medium leading-none text-gray-500 ">
-                  (5.0)
-                </p>
-                <a className="text-sm font-medium leading-none text-gray-900 underline hover:no-underline ">
-                  345 Reviews
-                </a>
-              </div>
             </div>
 
             <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
               <Button onClick={onOpen}>
-                <svg
-                  className="w-5 h-5 -ms-2 me-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                  />
-                </svg>
                 Make a Reservation with Us
               </Button>
             </div>
@@ -140,8 +138,7 @@ const BusinessPage = (props) => {
             <p
               className="mb-6 text-muted-foreground capitalize"
               dangerouslySetInnerHTML={{
-                __html:
-                  companyProfile?.description || 'Description not available',
+                __html: companyProfile?.description || 'Description not available',
               }}
             />
           </div>
@@ -157,37 +154,33 @@ const BusinessPage = (props) => {
             {subcategories.map((item, index) => (
               <div key={index} className="flex flex-col items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#94131F] text-primary-foreground">
-                  {/* Placeholder for icons */}
                   {item.label === 'Natural Hair Wash & Style' ? (
                     <HairDryer size={32} />
                   ) : item.label === 'Normal Nail Polish' ? (
                     <SmileyXEyes size={32} />
-                  ) : item.label === 'Human Hair Extension' ? (
-                    <EyeSlash size={32} />
-                  ) : item.label === 'Eyelash Removal' ? (
-                    <EyeSlash size={32} />
-                  ) : item.label === 'Back Abdominal' ? (
-                    <Hand size={32} />
                   ) : (
-                    <Hand size={32} /> // Default icon
+                    <Hand size={32} />
                   )}
                 </div>
                 <h3 className="text-base font-medium">{item.label}</h3>
-                <p className="text-sm font-semibold">
-                  Price: {item.price} Birr
-                </p>
+                <p className="text-sm font-semibold">Price: {item.price} Birr</p>
               </div>
             ))}
           </div>
         </div>
       </div>
+      {dialog && dialog.type === 'reserve' && (
+        <ReserveDialog
+          companyProfile={dialog.props.companyProfile}
+          onClose={close}
+        />
+      )}
     </section>
   );
 };
 
 export default BusinessPage;
 
-// Loader function to fetch company details
 export const CompanydetailLoader: LoaderFunction<any> = async ({ params }) => {
   try {
     const businessID = params.businessID!;

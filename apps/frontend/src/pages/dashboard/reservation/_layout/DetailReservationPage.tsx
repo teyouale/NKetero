@@ -1,6 +1,3 @@
-// import { CardContent, CardHeader, CardTitle } from '@ketero/ui';
-// import { Card } from '@radix-ui/themes';
-
 import { Card, CardContent, CardHeader, CardTitle } from '@ketero/ui';
 import React from 'react';
 import ReservationTable from './ReservationTable';
@@ -20,19 +17,19 @@ import {
   fetchMyBusinessReservation,
   findReservationByBusiness,
 } from '@/client/services/reservation';
-import { useUser } from '@/client/services/user';
 import { toast } from '@/client/hooks/use-toast';
 
-const BusinessReservationPage = (props) => {
-  const reservationData = useLoaderData();
+const BusinessReservationPage = () => {
+  const reservationData = useLoaderData<ReservationDto[]>(); // Type your data for better development experience.
   const { id } = useParams();
+
   return (
-    <div className="">
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card x-chunk="dashboard-01-chunk-0">
+    <div className="p-4">
+      <h1 className="text-xl font-bold">Business Reservations</h1>
+      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-4">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$45,231.89</div>
@@ -41,42 +38,7 @@ const BusinessReservationPage = (props) => {
             </p>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-1">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-            {/* <Users className="h-4 w-4 text-muted-foreground" /> */}
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">
-              +180.1% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-2">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
-            {/* <CreditCard className="h-4 w-4 text-muted-foreground" /> */}
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
-            </p>
-          </CardContent>
-        </Card>
-        <Card x-chunk="dashboard-01-chunk-3">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-            {/* <Activity className="h-4 w-4 text-muted-foreground" /> */}
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">
-              +201 since last hour
-            </p>
-          </CardContent>
-        </Card>
+        {/* Repeat similar Cards with meaningful data */}
       </div>
       <ReservationTable reservationData={reservationData} />
     </div>
@@ -88,29 +50,32 @@ export default BusinessReservationPage;
 export const detailLoader: LoaderFunction<ReservationDto> = async ({
   params,
 }) => {
+  const reservationID = params.reservationID!;
   try {
-    const reservationID = params.reservationID!;
     const reservation = await queryClient.fetchQuery({
-      queryKey: [RESERVATIONS_KEY, { reservationID }],
+      queryKey: [RESERVATION_KEY, reservationID],
       queryFn: () => findReservationByBusiness(reservationID),
     });
-
     return reservation;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error('Error fetching reservation:', error);
+    toast({
+      title: 'Reservation Not Found',
+      description: 'Unable to fetch reservation details.',
+    });
     return redirect('/dashboard');
   }
 };
-export const detailLoaderBusiness: LoaderFunction<
-  ReservationDto
-> = async ({}) => {
+
+export const detailLoaderBusiness: LoaderFunction<ReservationDto[]> = async () => {
   try {
-    const reservation = await queryClient.fetchQuery({
+    const reservations = await queryClient.fetchQuery({
       queryKey: [RESERVATIONS_KEY, { me: 'me' }],
       queryFn: () => fetchMyBusinessReservation(),
     });
-    return reservation;
-  } catch (e) {
+    return reservations;
+  } catch (error) {
+    console.error('Error fetching reservations:', error);
     toast({
       title: 'No Reservations Found',
       description:

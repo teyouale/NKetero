@@ -30,6 +30,7 @@ import BusinessPage, {
   CompanydetailLoader,
 } from '../pages/dashboard/client/components/BusinessPage';
 import ClientHomePage from '../pages/dashboard/client/page';
+import  reservation from '../services/reservation';
 
 // Auth Routes
 const AuthRoutes = (
@@ -83,9 +84,15 @@ const ClientRoutes = (
         element={<BusinessPage />}
         loader={CompanydetailLoader}
       />
-      <Route path="reservation" element={<ReservationPage />} />
-      <Route path="Settings" element={<UserProfile />} />
+      <Route path="businesses" element={<BusinessesPage />} />
+      <Route
+      path="myreservation"
+      loader={detailLoaderBusiness}
+      element={<BusinessReservationPage />}
+       /> 
+      <Route path="Profile" element={<UserProfile />} />
       <Route index element={<ClientHomePage />} />
+  
     </Route>
   </Route>
 );
@@ -99,7 +106,7 @@ export const routes = createRoutesFromElements(
         <Route element={<DashboardLayout />}>
           {VirtualAssistantRoutes}
           {BusinessRoutes}
-          {ClientRoutes}
+          {/* {ClientRoutes} */}
           <Route index element={<DashboardPage />} />
         </Route>
       </Route>
