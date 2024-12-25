@@ -76,6 +76,7 @@ export class BusinessController {
   @UseGuards(JwtGuard, RolesGuard)
   @Roles(Role.VirtualAssistant)
   async createBusinessUser(@Body() businessUser: CreateBusinessUserDto) {
+    // return "Hello"
     try {
       const newbusinessUser: RegisterDto = {
         role: Role.Business,
@@ -87,6 +88,7 @@ export class BusinessController {
         business: {
           location: businessUser.location,
         },
+        managerId: businessUser.managerId
       };
 
       const output: any = await this.authService.register(newbusinessUser);
@@ -125,6 +127,7 @@ export class BusinessController {
       } else if (error instanceof InternalServerErrorException) {
         throw new InternalServerErrorException(error.message);
       } else {
+        console.log(error)
         throw new InternalServerErrorException('An unexpected error occurred');
       }
     }

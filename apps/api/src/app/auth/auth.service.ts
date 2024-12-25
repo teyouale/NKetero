@@ -114,6 +114,7 @@ export class AuthService {
       location: registerDto.business?.location ?? '',
       description: '',
     };
+    console.log("second")
     const parsedPhoneNumber = PhoneNumberSchema.safeParse(
       registerDto.phoneNumber
     );

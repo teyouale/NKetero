@@ -10,6 +10,7 @@ const businessSchema = z.object({
   location: z.string().url({
     message: 'Invalid Location format',
   }),
+  managerId: z.string(),
   user: userSchema,
 });
 

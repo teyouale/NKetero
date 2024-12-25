@@ -26,6 +26,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   reservation  Reservation[]
+  managedBusinesses Business[]  @relation("UserManagedBusinesses")
   @@map("users")
 }
 
@@ -52,6 +53,8 @@ model Business {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservation  Reservation[]
   businessSubcategories BusinessSubcategory[] @relation("BusinessToSubcategory")
+  managerId           String   // Foreign key linking to User (manager)
+  manager             User     @relation("UserManagedBusinesses", fields: [managerId], references: [id], onDelete: Cascade) // Business manager
   
   @@map("businesses")
 }

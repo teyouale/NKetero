@@ -38,7 +38,7 @@ CREATE TABLE "businesses" (
     "name" TEXT NOT NULL,
     "description" TEXT,
     "workingHours" TEXT[],
-    "location" TEXT NOT NULL,
+    "location" JSONB NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "businesses_pkey" PRIMARY KEY ("id")
