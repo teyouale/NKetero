@@ -27,6 +27,23 @@ export class BusinessService {
       },
     });
   }
+  async getBusinessesByManagerId(managerId: string) {
+    try {
+      const businesses = await this.prisma.business.findMany({
+        where: {
+          managerId: managerId,
+        },
+        include: {
+          user: true
+        },
+      });
+
+      return businesses;
+    } catch (error) {
+      console.error('Error fetching businesses:', error);
+      throw new Error('Could not fetch businesses');
+    }
+  }
   async updateBusinessProfile(businessProfile: UpdateBusinessDto) {
     try {
       return await this.prisma.business.update({

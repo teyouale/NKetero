@@ -5,7 +5,7 @@ import {
   Navigate,
   Route,
 } from 'react-router-dom';
-import  UserProfile  from '../pages/dashboard/Profile/UserProfile/UserProfile';
+import UserProfile from '../pages/dashboard/Profile/UserProfile/UserProfile';
 import { AuthLayout } from '../pages/auth/layout';
 import { GuestGuard } from './guards/guest';
 import { LoginPage } from '../pages/auth/login/page';
@@ -22,12 +22,9 @@ import SingleReservationPage, {
   detailLoader,
 } from '../pages/dashboard/reservation/SingleReservationPage';
 import ServicePage, { categoryLoader } from '../pages/dashboard/services';
-import BusinessReservationPage, {
-  detailLoaderBusiness,
-} from '../pages/dashboard/reservation/_layout/DetailReservationPage';
-import { Settings } from 'lucide-react';
-
-// Auth Routes
+// import BusinessReservationPage, {
+//   detailLoaderBusiness,
+// } from '../pages/dashboard/reservation/_layout/DetailReservationPage';
 const AuthRoutes = (
   <Route path="auth">
     <Route element={<AuthLayout />}>
@@ -62,11 +59,12 @@ const VirtualAssistantRoutes = (
 // Business Routes
 const BusinessRoutes = (
   <Route element={<RoleBasedGuard roles={[Role.Business]} />}>
-    <Route
+    {/* <Route
       path="myreservation"
       loader={detailLoaderBusiness}
       element={<BusinessReservationPage />}
-    />
+    /> */}
+    {/* <Route path="profile" element={<ProfilePage />} /> */}
     <Route path="service" loader={categoryLoader} element={<ServicePage />} />
   </Route>
 );

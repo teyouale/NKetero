@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
   TabsContent,
-} from '@ketero/ui-components';
+} from '@ketero/ui';
 import { sortByDate } from '@ketero/utils';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
@@ -135,9 +135,7 @@ const ReservationList = (props) => {
             <Table>
               <TableHeader className="border-primary">
                 <TableRow>
-                  <TableHead className=" md:table-cell">
-                    Shop Name
-                  </TableHead>
+                  <TableHead className=" md:table-cell">Shop Name</TableHead>
                   <TableHead className="hidden sm:table-cell">
                     Owner Name
                   </TableHead>

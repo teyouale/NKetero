@@ -51,6 +51,14 @@ export class BusinessController {
 
     throw new ForbiddenException('Access denied');
   }
+  @Get('Agent')
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.VirtualAssistant)
+  async getAgentBusinesses(@Request() req) {
+    const user = req.user;
+
+    return this.businessService.getBusinessesByManagerId(user.userId);
+  }
 
   @Get(':id')
   @UseGuards(JwtGuard, RolesGuard)
@@ -75,8 +83,9 @@ export class BusinessController {
   @Post()
   @UseGuards(JwtGuard, RolesGuard)
   @Roles(Role.VirtualAssistant)
-  async createBusinessUser(@Body() businessUser: CreateBusinessUserDto) {
-    // return "Hello"
+  async createBusinessUser(@Request() req, @Body() businessUser: CreateBusinessUserDto) {
+    const agent = req.user.userId;
+
     try {
       const newbusinessUser: RegisterDto = {
         role: Role.Business,
@@ -88,9 +97,12 @@ export class BusinessController {
         business: {
           location: businessUser.location,
         },
-        managerId: businessUser.managerId
+        manager: {
+          connect: {
+            id: agent,
+          },
+        },
       };
-
       const output: any = await this.authService.register(newbusinessUser);
 
       if (!output) {
@@ -118,6 +130,7 @@ export class BusinessController {
         workingHours: output.business.workingHours,
         location: output.business.location,
         user: user,
+        manager: output.business.manager
       };
 
       return business;
