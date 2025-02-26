@@ -35,3 +35,5 @@ export const Icon = ({ size = 32, className }: Props) => {
     />
   );
 };
+
+

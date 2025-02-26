@@ -25,3 +25,4 @@ export const useUpdatePassword = () => {
 
   return { updatePassword: updatePasswordFn, loading, error };
 };
+ 

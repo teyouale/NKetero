@@ -1,4 +1,4 @@
-import Catagoies from './components/catagoies';
+import Catagoies from './components/catagories';
 import BusinessList from './components/BusinessList';
 import UserProfile from '../Profile/UserProfile/UserProfile';
 import BusinessPage from './components/BusinessPage';
@@ -10,7 +10,7 @@ const ClientHomePage = (props) => {
       <Catagoies />
       <BusinessList />
       {/* <BusinessPage /> */}
-      <UserProfile />
+      {/* <UserProfile /> */}
       {/* <DataTable data={tasks} columns={columns} /> */}
     </div>
   );

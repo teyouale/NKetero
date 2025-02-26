@@ -1,6 +1,6 @@
 import { useCategories } from '../../../../services/categories/categories';
 
-const Catagoies = (props) => {
+const Catagories = (props) => {
   const { catagories } = useCategories();
   return (
     <section className="bg-gray-50 pt-8 antialiased dark:bg-gray-900 md:pt-16">
@@ -67,4 +67,5 @@ const Catagoies = (props) => {
   );
 };
 
-export default Catagoies;
+export default Catagories;
+

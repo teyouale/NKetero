@@ -29,7 +29,6 @@ const BusinessCard = ({ business }) => {
         <a className="text-lg font-semibold leading-tight text-gray-900 hover:underline  capitalize ">
           {business.name}
         </a>
-
         <div className="mt-2 flex items-center gap-2">
           <div className="flex items-center">
             <svg
