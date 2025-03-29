@@ -22,6 +22,8 @@ import SingleReservationPage, {
   detailLoader,
 } from '../pages/dashboard/reservation/SingleReservationPage';
 import ServicePage, { categoryLoader } from '../pages/dashboard/services';
+import ClientLayout from '../pages/client/layout';
+import ClientHomePage from '../pages/client/page';
 // import BusinessReservationPage, {
 //   detailLoaderBusiness,
 // } from '../pages/dashboard/reservation/_layout/DetailReservationPage';
@@ -68,6 +70,19 @@ const BusinessRoutes = (
     <Route path="service" loader={categoryLoader} element={<ServicePage />} />
   </Route>
 );
+const ClientRoutes = () => (
+  <Route element={<ClientLayout />}>
+    <Route element={<RoleBasedGuard roles={[Role.Client]} />}>
+      {/* <Route
+        path="business/:businessID"
+        element={<BusinessPage />}
+        loader={CompanydetailLoader}
+      />
+      <Route index element={<ClientHomePage />} /> */}
+      <Route index element={<ClientHomePage />} />
+    </Route>
+  </Route>
+);
 
 export const routes = createRoutesFromElements(
   <Route element={<Providers />}>
@@ -82,7 +97,9 @@ export const routes = createRoutesFromElements(
         </Route>
       </Route>
     </Route>
-
+    <Route path="/client" element={<AuthGuard />}>
+      {ClientRoutes()}
+    </Route>
     <Route path="*" element={<Navigate replace to="/auth/login" />} />
   </Route>
 );

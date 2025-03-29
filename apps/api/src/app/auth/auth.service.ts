@@ -115,7 +115,7 @@ export class AuthService {
       description: '',
       manager: registerDto.manager
     };
-    console.log("second")
+    // console.log("second")
     const parsedPhoneNumber = PhoneNumberSchema.safeParse(
       registerDto.phoneNumber
     );
